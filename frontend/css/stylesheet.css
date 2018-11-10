@@ -2,7 +2,7 @@ body {
   background-color: #34312d;
 
   color: #f3f3f4;
-  font-size: 300%;
+  font-size: 200%;
   font-family: 'Noto Sans', sans-serif;
 }
 
@@ -22,6 +22,12 @@ button {
   border-radius: 20px;
 
   padding: 2%;
+}
+
+input :hover {
+  border-color: #7e7f83;
+  color: inherit;
+  background-color: #7e7f83;
 }
 
 input {
