@@ -5,10 +5,10 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**addUser**](DefaultApi.md#addUser) | **POST** /CreateAccount | adds an user
-[**getAllUSers**](DefaultApi.md#getAllUSers) | **GET** /users/getAll | Returns all users
 [**loginPost**](DefaultApi.md#loginPost) | **POST** /login | Logs you in
 [**modifyUser**](DefaultApi.md#modifyUser) | **PUT** /user | changes your user
 [**searchUserDatabase**](DefaultApi.md#searchUserDatabase) | **GET** /users/getSearch | searches user Database
+[**usersGetAllGet**](DefaultApi.md#usersGetAllGet) | **GET** /users/getAll | Returns all users
 
 
 <a name="addUser"></a>
@@ -55,45 +55,6 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: Not defined
-
-<a name="getAllUSers"></a>
-# **getAllUSers**
-> [User] getAllUSers()
-
-Returns all users
-
-By passing in the appropriate options, you can search for available inventory in the system 
-
-### Example
-```javascript
-var MitlUferPublicApi = require('mitl_ufer_public_api');
-
-var apiInstance = new MitlUferPublicApi.DefaultApi();
-var callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('API called successfully. Returned data: ' + data);
-  }
-};
-apiInstance.getAllUSers(callback);
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-[**[User]**](User.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
 
 <a name="loginPost"></a>
 # **loginPost**
@@ -228,6 +189,45 @@ Name | Type | Description  | Notes
  **searchString** | **String**| pass an optional search string fo | [optional] 
  **skip** | **Number**| number of records to skip for pagination | [optional] 
  **limit** | **Number**| maximum number of records to return | [optional] 
+
+### Return type
+
+[**[User]**](User.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a name="usersGetAllGet"></a>
+# **usersGetAllGet**
+> [User] usersGetAllGet()
+
+Returns all users
+
+By passing in the appropriate options, you can search for available inventory in the system 
+
+### Example
+```javascript
+var MitlUferPublicApi = require('mitl_ufer_public_api');
+
+var apiInstance = new MitlUferPublicApi.DefaultApi();
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.usersGetAllGet(callback);
+```
+
+### Parameters
+This endpoint does not need any parameter.
 
 ### Return type
 
