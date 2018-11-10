@@ -1,0 +1,258 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Mitl-ufer public API",
+    "description" : "This is the public API of Mitl-ufer",
+    "contact" : {
+      "email" : "tobrohl@gmail.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "http://172.22.42.100:8080/"
+  } ],
+  "paths" : {
+    "/login" : {
+      "post" : {
+        "summary" : "Logs you in",
+        "description" : "Creates a cookie providing authentication",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "query",
+          "description" : "the username you entered on Account creation",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "password",
+          "in" : "query",
+          "description" : "the password you choose",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successfully authenticated. The session ID is returned in a cookie named `JSESSIONID`. You need to include this cookie in subsequent requests.\n",
+            "headers" : {
+              "Set-Cookie" : {
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string",
+                  "example" : "JSESSIONID=abcde12345; Path=/; HttpOnly"
+                }
+              }
+            }
+          },
+          "201" : {
+            "description" : "Invalid credentials"
+          }
+        }
+      }
+    },
+    "/user" : {
+      "put" : {
+        "summary" : "changes your user",
+        "description" : "Changes your own user",
+        "parameters" : [ {
+          "name" : "newUserData",
+          "in" : "query",
+          "description" : "The new userdata",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "$ref" : "#/components/schemas/User"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "User updated"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "403" : {
+            "description" : "You are not allowed to do that"
+          }
+        },
+        "security" : [ {
+          "cookieAuth" : [ ]
+        } ]
+      }
+    },
+    "/users/getSearch" : {
+      "get" : {
+        "summary" : "searches user Database",
+        "description" : "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
+        "parameters" : [ {
+          "name" : "searchString",
+          "in" : "query",
+          "description" : "pass an optional search string fo",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "skip",
+          "in" : "query",
+          "description" : "number of records to skip for pagination",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }, {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "maximum number of records to return",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 50,
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      }
+    },
+    "/users/getAll" : {
+      "get" : {
+        "summary" : "Returns all users",
+        "description" : "By passing in the appropriate options, you can search for available inventory in the system",
+        "responses" : {
+          "200" : {
+            "description" : "All users",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/createAccount" : {
+      "post" : {
+        "summary" : "adds an user",
+        "description" : "Adds an user to the system",
+        "requestBody" : {
+          "description" : "User to add",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "item created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing item already exists"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "User" : {
+        "required" : [ "eMail", "geburtsdatum", "geschlecht", "laufniveau", "laufort", "name", "profilbild", "ziel" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "example" : "HalloWelt"
+          },
+          "laufort" : {
+            "type" : "string",
+            "example" : "32657"
+          },
+          "eMail" : {
+            "type" : "string",
+            "example" : "DeineAdresse@gmail.com"
+          },
+          "geburtsdatum" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "laufniveau" : {
+            "type" : "string",
+            "enum" : [ "Anfaenger", "Fortgeschritten", "Profi" ]
+          },
+          "ziel" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "profilbild" : {
+            "type" : "string",
+            "example" : "Not implemented yet"
+          }
+        },
+        "example" : {
+          "geburtsdatum" : "2000-01-23",
+          "laufniveau" : "Anfaenger",
+          "name" : "HalloWelt",
+          "laufort" : "32657",
+          "profilbild" : "Not implemented yet",
+          "eMail" : "DeineAdresse@gmail.com",
+          "ziel" : 0
+        }
+      }
+    },
+    "securitySchemes" : {
+      "cookieAuth" : {
+        "type" : "apiKey",
+        "name" : "JSESSIONID",
+        "in" : "cookie"
+      }
+    }
+  }
+}
