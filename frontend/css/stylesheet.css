@@ -28,12 +28,12 @@ body {
 }
 
 h2 {
-  color:#5cb8d7;
+  color:#8CCDE3;
   margin-top: 4%;
 }
 
 h1 {
-  color: #5cb8d7;
+  color: #8CCDE3;
   font-size: 250%;
   margin-bottom: 15%;
 }
@@ -42,6 +42,7 @@ button {
   font-size: inherit;
   color: #34312d;
   background-color: #d80056;
+  font-weight: bold;
 
   border-width: 5px;
   border-style: solid;
@@ -53,7 +54,7 @@ button {
 }
 
 hr {
-  color:#7e7f83;
+  color:#BFBFC4;
   display: block;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -62,20 +63,20 @@ hr {
 }
 
 input :hover {
-  border-color: #7e7f83;
+  border-color: #BFBFC4;
   color: inherit;
-  background-color: #7e7f83;
+  background-color: #BFBFC4;
 }
 
 input {
   text-align: center;
   font-size: inherit;
-  color: #7e7f83;
+  color: #BFBFC4;
   background-color: inherit;
 
   border-width: 5px;
   border-style: solid;
-  border-color: #7e7f83;
+  border-color: #BFBFC4;
   border-radius: 20px;
 
   padding: 2%;
