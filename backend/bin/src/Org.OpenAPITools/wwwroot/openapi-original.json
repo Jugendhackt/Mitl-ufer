@@ -24,6 +24,27 @@
       "post" : {
         "summary" : "Logs you in",
         "description" : "Creates a cookie providing authentication",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "query",
+          "description" : "the username you entered on Account creation",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "password",
+          "in" : "query",
+          "description" : "the password you choose",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
         "responses" : {
           "200" : {
             "description" : "Successfully authenticated. The session ID is returned in a cookie named `JSESSIONID`. You need to include this cookie in subsequent requests.\n",
@@ -76,9 +97,8 @@
         } ]
       }
     },
-    "/users" : {
+    "/users/getSearch" : {
       "get" : {
-        "tags" : [ "open" ],
         "summary" : "searches user Database",
         "description" : "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
         "operationId" : "searchUserDatabase",
@@ -138,9 +158,30 @@
         }
       }
     },
+    "/users/getAll" : {
+      "get" : {
+        "summary" : "Returns all users",
+        "description" : "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
+        "operationId" : "getAllUSers",
+        "responses" : {
+          "200" : {
+            "description" : "All users",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/CreateAccount" : {
       "post" : {
-        "tags" : [ "open" ],
         "summary" : "adds an user",
         "description" : "Adds an user to the system",
         "operationId" : "AddUser",
@@ -179,9 +220,8 @@
             "example" : "HalloWelt"
           },
           "laufort" : {
-            "type" : "integer",
-            "format" : "int32",
-            "example" : 32657
+            "type" : "string",
+            "example" : "32657"
           },
           "eMail" : {
             "type" : "string",
@@ -194,10 +234,6 @@
           "laufniveau" : {
             "type" : "string",
             "enum" : [ "Anfaenger", "Fortgeschritten", "Profi" ]
-          },
-          "geschlecht" : {
-            "type" : "string",
-            "enum" : [ "Mann", "Frau", "Keins" ]
           },
           "ziel" : {
             "type" : "integer",
@@ -212,8 +248,7 @@
           "geburtsdatum" : "2000-01-23",
           "laufniveau" : "Anfaenger",
           "name" : "HalloWelt",
-          "geschlecht" : "Mann",
-          "laufort" : 32657,
+          "laufort" : "32657",
           "profilbild" : "Not implemented yet",
           "eMail" : "DeineAdresse@gmail.com",
           "ziel" : 0

@@ -49,6 +49,90 @@
 
 
     /**
+     * Callback function to receive the result of the addUser operation.
+     * @callback module:api/DefaultApi~addUserCallback
+     * @param {String} error Error message, if any.
+     * @param data This operation does not return a value.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * adds an user
+     * Adds an user to the system
+     * @param {Object} opts Optional parameters
+     * @param {module:model/User} opts.user User to add
+     * @param {module:api/DefaultApi~addUserCallback} callback The callback function, accepting three arguments: error, data, response
+     */
+    this.addUser = function(opts, callback) {
+      opts = opts || {};
+      var postBody = opts['user'];
+
+
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var collectionQueryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = [];
+      var contentTypes = ['application/json'];
+      var accepts = [];
+      var returnType = null;
+
+      return this.apiClient.callApi(
+        '/CreateAccount', 'POST',
+        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the getAllUSers operation.
+     * @callback module:api/DefaultApi~getAllUSersCallback
+     * @param {String} error Error message, if any.
+     * @param {Array.<module:model/User>} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Returns all users
+     * By passing in the appropriate options, you can search for available inventory in the system 
+     * @param {module:api/DefaultApi~getAllUSersCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link Array.<module:model/User>}
+     */
+    this.getAllUSers = function(callback) {
+      var postBody = null;
+
+
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var collectionQueryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = [];
+      var contentTypes = [];
+      var accepts = ['application/json'];
+      var returnType = [User];
+
+      return this.apiClient.callApi(
+        '/users/getAll', 'GET',
+        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
      * Callback function to receive the result of the loginPost operation.
      * @callback module:api/DefaultApi~loginPostCallback
      * @param {String} error Error message, if any.
@@ -59,15 +143,21 @@
     /**
      * Logs you in
      * Creates a cookie providing authentication
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.username the username you entered on Account creation
+     * @param {String} opts.password the password you choose
      * @param {module:api/DefaultApi~loginPostCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    this.loginPost = function(callback) {
+    this.loginPost = function(opts, callback) {
+      opts = opts || {};
       var postBody = null;
 
 
       var pathParams = {
       };
       var queryParams = {
+        'username': opts['username'],
+        'password': opts['password'],
       };
       var collectionQueryParams = {
       };
@@ -127,6 +217,55 @@
 
       return this.apiClient.callApi(
         '/user', 'PUT',
+        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the searchUserDatabase operation.
+     * @callback module:api/DefaultApi~searchUserDatabaseCallback
+     * @param {String} error Error message, if any.
+     * @param {Array.<module:model/User>} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * searches user Database
+     * By passing in the appropriate options, you can search for available inventory in the system 
+     * @param {Object} opts Optional parameters
+     * @param {String} opts.searchString pass an optional search string fo
+     * @param {Number} opts.skip number of records to skip for pagination
+     * @param {Number} opts.limit maximum number of records to return
+     * @param {module:api/DefaultApi~searchUserDatabaseCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link Array.<module:model/User>}
+     */
+    this.searchUserDatabase = function(opts, callback) {
+      opts = opts || {};
+      var postBody = null;
+
+
+      var pathParams = {
+      };
+      var queryParams = {
+        'searchString': opts['searchString'],
+        'skip': opts['skip'],
+        'limit': opts['limit'],
+      };
+      var collectionQueryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = [];
+      var contentTypes = [];
+      var accepts = ['application/json'];
+      var returnType = [User];
+
+      return this.apiClient.callApi(
+        '/users/getSearch', 'GET',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );

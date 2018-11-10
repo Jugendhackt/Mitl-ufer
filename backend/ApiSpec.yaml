@@ -17,17 +17,28 @@ paths:
     post:
       summary: Logs you in
       description: Creates a cookie providing authentication
+      parameters:
+        - in: query
+          name: username
+          description: the username you entered on Account creation
+          schema:
+            type: string
+        - in: query
+          name: password
+          description: the password you choose
+          schema:
+            type: string
       responses:
         '200':
           description: >
             Successfully authenticated.
             The session ID is returned in a cookie named `JSESSIONID`. You need to include this cookie in subsequent requests.
-          headers: 
+          headers:
             Set-Cookie:
-              schema: 
+              schema:
                 type: string
                 example: JSESSIONID=abcde12345; Path=/; HttpOnly
-        '201': 
+        '201':
           description: Invalid credentials
   /user:
     put:
@@ -36,11 +47,11 @@ paths:
       description: Changes your own user
       security:
         - cookieAuth: []
-      parameters: 
-       - in: query
-         name: newUserData
-         description: The new userdata
-         schema: 
+      parameters:
+        - in: query
+          name: newUserData
+          description: The new userdata
+          schema:
             $ref: '#/components/schemas/User'
       responses:
         '201':
@@ -50,10 +61,8 @@ paths:
         '403':
           description: You are not allowed to do that
 
-  /users:
+  /users/getSearch:
     get:
-      tags:
-        - open
       summary: searches user Database
       operationId: searchUserDatabase
       description: |
@@ -92,10 +101,24 @@ paths:
                   $ref: '#/components/schemas/User'
         '400':
           description: bad input parameter
+  /users/getAll:
+    get:
+      summary: Returns all users
+      operationId: getAllUSers
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      responses:
+        '200':
+          description: All users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
   /CreateAccount:
     post:
-      tags:
-        - open
       summary: adds an user
       operationId: AddUser
       description: Adds an user to the system
@@ -135,12 +158,12 @@ components:
           type: string
           example: HalloWelt
         laufort:
-          type: integer
+          type: string
           example: 32657
         eMail:
           type: string
           example: DeineAdresse@gmail.com
-        geburtsdatum: 
+        geburtsdatum:
           type: string
           format: date
           example: 27.01.2003
@@ -150,12 +173,6 @@ components:
             - Anfaenger
             - Fortgeschritten
             - Profi
-        geschlecht:
-          type: string
-          enum: &Geschlecht
-            - Mann
-            - Frau
-            - Keins
         ziel:
           type: integer
         profilbild:

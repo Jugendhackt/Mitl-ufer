@@ -17,12 +17,12 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['ApiClient', 'model/User', 'api/DefaultApi', 'api/OpenApi'], factory);
+    define(['ApiClient', 'model/User', 'api/DefaultApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/User'), require('./api/DefaultApi'), require('./api/OpenApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/User'), require('./api/DefaultApi'));
   }
-}(function(ApiClient, User, DefaultApi, OpenApi) {
+}(function(ApiClient, User, DefaultApi) {
   'use strict';
 
   /**
@@ -71,12 +71,7 @@
      * The DefaultApi service constructor.
      * @property {module:api/DefaultApi}
      */
-    DefaultApi: DefaultApi,
-    /**
-     * The OpenApi service constructor.
-     * @property {module:api/OpenApi}
-     */
-    OpenApi: OpenApi
+    DefaultApi: DefaultApi
   };
 
   return exports;

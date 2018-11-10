@@ -96,6 +96,9 @@ Please follow the [installation](#installation) instruction and execute the foll
 var MitlUferPublicApi = require('mitl_ufer_public_api');
 
 var api = new MitlUferPublicApi.DefaultApi()
+var opts = {
+  'user': new MitlUferPublicApi.User() // {User} User to add
+};
 
 var callback = function(error, data, response) {
   if (error) {
@@ -104,7 +107,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-api.loginPost(callback);
+api.addUser(opts, callback);
 
 ```
 
@@ -114,10 +117,11 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*MitlUferPublicApi.DefaultApi* | [**addUser**](docs/DefaultApi.md#addUser) | **POST** /CreateAccount | adds an user
+*MitlUferPublicApi.DefaultApi* | [**getAllUSers**](docs/DefaultApi.md#getAllUSers) | **GET** /users/getAll | Returns all users
 *MitlUferPublicApi.DefaultApi* | [**loginPost**](docs/DefaultApi.md#loginPost) | **POST** /login | Logs you in
 *MitlUferPublicApi.DefaultApi* | [**modifyUser**](docs/DefaultApi.md#modifyUser) | **PUT** /user | changes your user
-*MitlUferPublicApi.OpenApi* | [**addUser**](docs/OpenApi.md#addUser) | **POST** /CreateAccount | adds an user
-*MitlUferPublicApi.OpenApi* | [**searchUserDatabase**](docs/OpenApi.md#searchUserDatabase) | **GET** /users | searches user Database
+*MitlUferPublicApi.DefaultApi* | [**searchUserDatabase**](docs/DefaultApi.md#searchUserDatabase) | **GET** /users/getSearch | searches user Database
 
 
 ## Documentation for Models

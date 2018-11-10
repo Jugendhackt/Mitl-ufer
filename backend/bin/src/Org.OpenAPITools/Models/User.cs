@@ -36,7 +36,7 @@ namespace Org.OpenAPITools.Models
         /// </summary>
         [Required]
         [DataMember(Name="laufort")]
-        public int? Laufort { get; set; }
+        public string Laufort { get; set; }
 
         /// <summary>
         /// Gets or Sets EMail
@@ -86,39 +86,6 @@ namespace Org.OpenAPITools.Models
         public LaufniveauEnum? Laufniveau { get; set; }
 
         /// <summary>
-        /// Gets or Sets Geschlecht
-        /// </summary>
-        [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
-        public enum GeschlechtEnum
-        {
-            
-            /// <summary>
-            /// Enum MannEnum for Mann
-            /// </summary>
-            [EnumMember(Value = "Mann")]
-            MannEnum = 1,
-            
-            /// <summary>
-            /// Enum FrauEnum for Frau
-            /// </summary>
-            [EnumMember(Value = "Frau")]
-            FrauEnum = 2,
-            
-            /// <summary>
-            /// Enum KeinsEnum for Keins
-            /// </summary>
-            [EnumMember(Value = "Keins")]
-            KeinsEnum = 3
-        }
-
-        /// <summary>
-        /// Gets or Sets Geschlecht
-        /// </summary>
-        [Required]
-        [DataMember(Name="geschlecht")]
-        public GeschlechtEnum? Geschlecht { get; set; }
-
-        /// <summary>
         /// Gets or Sets Ziel
         /// </summary>
         [Required]
@@ -145,7 +112,6 @@ namespace Org.OpenAPITools.Models
             sb.Append("  EMail: ").Append(EMail).Append("\n");
             sb.Append("  Geburtsdatum: ").Append(Geburtsdatum).Append("\n");
             sb.Append("  Laufniveau: ").Append(Laufniveau).Append("\n");
-            sb.Append("  Geschlecht: ").Append(Geschlecht).Append("\n");
             sb.Append("  Ziel: ").Append(Ziel).Append("\n");
             sb.Append("  Profilbild: ").Append(Profilbild).Append("\n");
             sb.Append("}\n");
@@ -210,11 +176,6 @@ namespace Org.OpenAPITools.Models
                     Laufniveau.Equals(other.Laufniveau)
                 ) && 
                 (
-                    Geschlecht == other.Geschlecht ||
-                    Geschlecht != null &&
-                    Geschlecht.Equals(other.Geschlecht)
-                ) && 
-                (
                     Ziel == other.Ziel ||
                     Ziel != null &&
                     Ziel.Equals(other.Ziel)
@@ -246,8 +207,6 @@ namespace Org.OpenAPITools.Models
                     hashCode = hashCode * 59 + Geburtsdatum.GetHashCode();
                     if (Laufniveau != null)
                     hashCode = hashCode * 59 + Laufniveau.GetHashCode();
-                    if (Geschlecht != null)
-                    hashCode = hashCode * 59 + Geschlecht.GetHashCode();
                     if (Ziel != null)
                     hashCode = hashCode * 59 + Ziel.GetHashCode();
                     if (Profilbild != null)

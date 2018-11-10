@@ -44,15 +44,14 @@
    * @alias module:model/User
    * @class
    * @param name {String} 
-   * @param laufort {Number} 
+   * @param laufort {String} 
    * @param eMail {String} 
    * @param geburtsdatum {Date} 
    * @param laufniveau {module:model/User.LaufniveauEnum} 
-   * @param geschlecht {module:model/User.GeschlechtEnum} 
    * @param ziel {Number} 
    * @param profilbild {String} 
    */
-  var exports = function(name, laufort, eMail, geburtsdatum, laufniveau, geschlecht, ziel, profilbild) {
+  var exports = function(name, laufort, eMail, geburtsdatum, laufniveau, ziel, profilbild) {
     var _this = this;
 
     _this['name'] = name;
@@ -60,7 +59,6 @@
     _this['eMail'] = eMail;
     _this['geburtsdatum'] = geburtsdatum;
     _this['laufniveau'] = laufniveau;
-    _this['geschlecht'] = geschlecht;
     _this['ziel'] = ziel;
     _this['profilbild'] = profilbild;
   };
@@ -79,7 +77,7 @@
         obj['name'] = ApiClient.convertToType(data['name'], 'String');
       }
       if (data.hasOwnProperty('laufort')) {
-        obj['laufort'] = ApiClient.convertToType(data['laufort'], 'Number');
+        obj['laufort'] = ApiClient.convertToType(data['laufort'], 'String');
       }
       if (data.hasOwnProperty('eMail')) {
         obj['eMail'] = ApiClient.convertToType(data['eMail'], 'String');
@@ -89,9 +87,6 @@
       }
       if (data.hasOwnProperty('laufniveau')) {
         obj['laufniveau'] = ApiClient.convertToType(data['laufniveau'], 'String');
-      }
-      if (data.hasOwnProperty('geschlecht')) {
-        obj['geschlecht'] = ApiClient.convertToType(data['geschlecht'], 'String');
       }
       if (data.hasOwnProperty('ziel')) {
         obj['ziel'] = ApiClient.convertToType(data['ziel'], 'Number');
@@ -108,7 +103,7 @@
    */
   exports.prototype['name'] = undefined;
   /**
-   * @member {Number} laufort
+   * @member {String} laufort
    */
   exports.prototype['laufort'] = undefined;
   /**
@@ -123,10 +118,6 @@
    * @member {module:model/User.LaufniveauEnum} laufniveau
    */
   exports.prototype['laufniveau'] = undefined;
-  /**
-   * @member {module:model/User.GeschlechtEnum} geschlecht
-   */
-  exports.prototype['geschlecht'] = undefined;
   /**
    * @member {Number} ziel
    */
@@ -158,28 +149,6 @@
      * @const
      */
     "Profi": "Profi"  };
-
-  /**
-   * Allowed values for the <code>geschlecht</code> property.
-   * @enum {String}
-   * @readonly
-   */
-  exports.GeschlechtEnum = {
-    /**
-     * value: "Mann"
-     * @const
-     */
-    "Mann": "Mann",
-    /**
-     * value: "Frau"
-     * @const
-     */
-    "Frau": "Frau",
-    /**
-     * value: "Keins"
-     * @const
-     */
-    "Keins": "Keins"  };
 
 
   return exports;
