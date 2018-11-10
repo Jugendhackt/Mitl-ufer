@@ -21,6 +21,15 @@ body {
   width: 40%;
 }
 
+.fa-envelope {
+  color:#d80056;
+  margin-left: 3%;
+}
+
+h2 {
+  color:#5cb8d7;
+}
+
 h1 {
   color: #5cb8d7;
   font-size: 250%;
@@ -39,6 +48,15 @@ button {
 
   padding: 4%;
   margin: 8%;
+}
+
+hr {
+  color:#7e7f83;
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  border-style: inset;
+  border-width: 1px;
 }
 
 input :hover {
