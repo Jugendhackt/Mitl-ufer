@@ -1,0 +1,38 @@
+body {
+  background-color: #34312d;
+
+  color: #f3f3f4;
+  font-size: 300%;
+  font-family: 'Noto Sans', sans-serif;
+}
+
+h1 {
+  color: #5cb8d7;
+  font-size: 250%;
+}
+
+button {
+  font-size: inherit;
+  color: #34312d;
+  background-color: #d80056;
+
+  border-width: 5px;
+  border-style: solid;
+  border-color: #d80056;
+  border-radius: 20px;
+
+  padding: 2%;
+}
+
+input {
+  font-size: inherit;
+  color: #7e7f83;
+  background-color: inherit;
+
+  border-width: 5px;
+  border-style: solid;
+  border-color: #7e7f83;
+  border-radius: 20px;
+
+  padding: 2%;
+}
