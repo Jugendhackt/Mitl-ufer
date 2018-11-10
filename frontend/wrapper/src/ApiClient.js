@@ -47,9 +47,9 @@
     /**
      * The base URL against which to resolve every API call's (relative) path.
      * @type {String}
-     * @default http://localhost
+     * @default http://172.22.42.100:8080
      */
-    this.basePath = 'http://localhost'.replace(/\/+$/, '');
+    this.basePath = 'http://172.22.42.100:8080'.replace(/\/+$/, '');
 
     /**
      * The authentication methods to be included for all API calls.

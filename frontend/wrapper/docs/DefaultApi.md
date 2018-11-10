@@ -1,19 +1,19 @@
 # MitlUferPublicApi.DefaultApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *http://172.22.42.100:8080*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addUser**](DefaultApi.md#addUser) | **POST** /CreateAccount | adds an user
-[**getAllUSers**](DefaultApi.md#getAllUSers) | **GET** /users/getAll | Returns all users
+[**createAccountPost**](DefaultApi.md#createAccountPost) | **POST** /createAccount | adds an user
 [**loginPost**](DefaultApi.md#loginPost) | **POST** /login | Logs you in
-[**modifyUser**](DefaultApi.md#modifyUser) | **PUT** /user | changes your user
-[**searchUserDatabase**](DefaultApi.md#searchUserDatabase) | **GET** /users/getSearch | searches user Database
+[**userPut**](DefaultApi.md#userPut) | **PUT** /user | changes your user
+[**usersGetAllGet**](DefaultApi.md#usersGetAllGet) | **GET** /users/getAll | Returns all users
+[**usersGetSearchGet**](DefaultApi.md#usersGetSearchGet) | **GET** /users/getSearch | searches user Database
 
 
-<a name="addUser"></a>
-# **addUser**
-> addUser(opts)
+<a name="createAccountPost"></a>
+# **createAccountPost**
+> createAccountPost(opts)
 
 adds an user
 
@@ -34,7 +34,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-apiInstance.addUser(opts, callback);
+apiInstance.createAccountPost(opts, callback);
 ```
 
 ### Parameters
@@ -55,45 +55,6 @@ No authorization required
 
  - **Content-Type**: application/json
  - **Accept**: Not defined
-
-<a name="getAllUSers"></a>
-# **getAllUSers**
-> [User] getAllUSers()
-
-Returns all users
-
-By passing in the appropriate options, you can search for available inventory in the system 
-
-### Example
-```javascript
-var MitlUferPublicApi = require('mitl_ufer_public_api');
-
-var apiInstance = new MitlUferPublicApi.DefaultApi();
-var callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('API called successfully. Returned data: ' + data);
-  }
-};
-apiInstance.getAllUSers(callback);
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-[**[User]**](User.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
 
 <a name="loginPost"></a>
 # **loginPost**
@@ -142,9 +103,9 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="modifyUser"></a>
-# **modifyUser**
-> modifyUser(opts)
+<a name="userPut"></a>
+# **userPut**
+> userPut(opts)
 
 changes your user
 
@@ -171,7 +132,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-apiInstance.modifyUser(opts, callback);
+apiInstance.userPut(opts, callback);
 ```
 
 ### Parameters
@@ -193,9 +154,48 @@ null (empty response body)
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="searchUserDatabase"></a>
-# **searchUserDatabase**
-> [User] searchUserDatabase(opts)
+<a name="usersGetAllGet"></a>
+# **usersGetAllGet**
+> [User] usersGetAllGet()
+
+Returns all users
+
+By passing in the appropriate options, you can search for available inventory in the system
+
+### Example
+```javascript
+var MitlUferPublicApi = require('mitl_ufer_public_api');
+
+var apiInstance = new MitlUferPublicApi.DefaultApi();
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.usersGetAllGet(callback);
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**[User]**](User.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a name="usersGetSearchGet"></a>
+# **usersGetSearchGet**
+> [User] usersGetSearchGet(opts)
 
 searches user Database
 
@@ -218,7 +218,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.searchUserDatabase(opts, callback);
+apiInstance.usersGetSearchGet(opts, callback);
 ```
 
 ### Parameters
