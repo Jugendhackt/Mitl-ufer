@@ -15,10 +15,6 @@
   "servers" : [ {
     "url" : "/"
   } ],
-  "tags" : [ {
-    "name" : "open",
-    "description" : "Operations available to anyone"
-  } ],
   "paths" : {
     "/login" : {
       "post" : {
@@ -162,7 +158,6 @@
       "get" : {
         "summary" : "Returns all users",
         "description" : "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
-        "operationId" : "getAllUSers",
         "responses" : {
           "200" : {
             "description" : "All users",

@@ -1,19 +1,19 @@
 # MitlUferPublicApi.DefaultApi
 
-All URIs are relative to *http://172.22.42.100:8080*
+All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createAccountPost**](DefaultApi.md#createAccountPost) | **POST** /createAccount | adds an user
+[**addUser**](DefaultApi.md#addUser) | **POST** /CreateAccount | adds an user
 [**loginPost**](DefaultApi.md#loginPost) | **POST** /login | Logs you in
-[**userPut**](DefaultApi.md#userPut) | **PUT** /user | changes your user
+[**modifyUser**](DefaultApi.md#modifyUser) | **PUT** /user | changes your user
+[**searchUserDatabase**](DefaultApi.md#searchUserDatabase) | **GET** /users/getSearch | searches user Database
 [**usersGetAllGet**](DefaultApi.md#usersGetAllGet) | **GET** /users/getAll | Returns all users
-[**usersGetSearchGet**](DefaultApi.md#usersGetSearchGet) | **GET** /users/getSearch | searches user Database
 
 
-<a name="createAccountPost"></a>
-# **createAccountPost**
-> createAccountPost(opts)
+<a name="addUser"></a>
+# **addUser**
+> addUser(opts)
 
 adds an user
 
@@ -34,7 +34,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-apiInstance.createAccountPost(opts, callback);
+apiInstance.addUser(opts, callback);
 ```
 
 ### Parameters
@@ -103,9 +103,9 @@ No authorization required
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="userPut"></a>
-# **userPut**
-> userPut(opts)
+<a name="modifyUser"></a>
+# **modifyUser**
+> modifyUser(opts)
 
 changes your user
 
@@ -132,7 +132,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-apiInstance.userPut(opts, callback);
+apiInstance.modifyUser(opts, callback);
 ```
 
 ### Parameters
@@ -154,48 +154,9 @@ null (empty response body)
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="usersGetAllGet"></a>
-# **usersGetAllGet**
-> [User] usersGetAllGet()
-
-Returns all users
-
-By passing in the appropriate options, you can search for available inventory in the system
-
-### Example
-```javascript
-var MitlUferPublicApi = require('mitl_ufer_public_api');
-
-var apiInstance = new MitlUferPublicApi.DefaultApi();
-var callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('API called successfully. Returned data: ' + data);
-  }
-};
-apiInstance.usersGetAllGet(callback);
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-[**[User]**](User.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-<a name="usersGetSearchGet"></a>
-# **usersGetSearchGet**
-> [User] usersGetSearchGet(opts)
+<a name="searchUserDatabase"></a>
+# **searchUserDatabase**
+> [User] searchUserDatabase(opts)
 
 searches user Database
 
@@ -218,7 +179,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.usersGetSearchGet(opts, callback);
+apiInstance.searchUserDatabase(opts, callback);
 ```
 
 ### Parameters
@@ -228,6 +189,45 @@ Name | Type | Description  | Notes
  **searchString** | **String**| pass an optional search string fo | [optional] 
  **skip** | **Number**| number of records to skip for pagination | [optional] 
  **limit** | **Number**| maximum number of records to return | [optional] 
+
+### Return type
+
+[**[User]**](User.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+<a name="usersGetAllGet"></a>
+# **usersGetAllGet**
+> [User] usersGetAllGet()
+
+Returns all users
+
+By passing in the appropriate options, you can search for available inventory in the system 
+
+### Example
+```javascript
+var MitlUferPublicApi = require('mitl_ufer_public_api');
+
+var apiInstance = new MitlUferPublicApi.DefaultApi();
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+apiInstance.usersGetAllGet(callback);
+```
+
+### Parameters
+This endpoint does not need any parameter.
 
 ### Return type
 

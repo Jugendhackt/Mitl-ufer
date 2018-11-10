@@ -9,9 +9,6 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-tags:
-  - name: open
-    description: Operations available to anyone
 paths:
   /login:
     post:
@@ -104,7 +101,6 @@ paths:
   /users/getAll:
     get:
       summary: Returns all users
-      operationId: getAllUSers
       description: |
         By passing in the appropriate options, you can search for
         available inventory in the system

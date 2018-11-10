@@ -107,21 +107,21 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-api.createAccountPost(opts, callback);
+api.addUser(opts, callback);
 
 ```
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://172.22.42.100:8080*
+All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*MitlUferPublicApi.DefaultApi* | [**createAccountPost**](docs/DefaultApi.md#createAccountPost) | **POST** /createAccount | adds an user
+*MitlUferPublicApi.DefaultApi* | [**addUser**](docs/DefaultApi.md#addUser) | **POST** /CreateAccount | adds an user
 *MitlUferPublicApi.DefaultApi* | [**loginPost**](docs/DefaultApi.md#loginPost) | **POST** /login | Logs you in
-*MitlUferPublicApi.DefaultApi* | [**userPut**](docs/DefaultApi.md#userPut) | **PUT** /user | changes your user
+*MitlUferPublicApi.DefaultApi* | [**modifyUser**](docs/DefaultApi.md#modifyUser) | **PUT** /user | changes your user
+*MitlUferPublicApi.DefaultApi* | [**searchUserDatabase**](docs/DefaultApi.md#searchUserDatabase) | **GET** /users/getSearch | searches user Database
 *MitlUferPublicApi.DefaultApi* | [**usersGetAllGet**](docs/DefaultApi.md#usersGetAllGet) | **GET** /users/getAll | Returns all users
-*MitlUferPublicApi.DefaultApi* | [**usersGetSearchGet**](docs/DefaultApi.md#usersGetSearchGet) | **GET** /users/getSearch | searches user Database
 
 
 ## Documentation for Models
