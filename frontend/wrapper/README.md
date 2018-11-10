@@ -118,10 +118,10 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *MitlUferPublicApi.DefaultApi* | [**addUser**](docs/DefaultApi.md#addUser) | **POST** /CreateAccount | adds an user
-*MitlUferPublicApi.DefaultApi* | [**getAllUSers**](docs/DefaultApi.md#getAllUSers) | **GET** /users/getAll | Returns all users
 *MitlUferPublicApi.DefaultApi* | [**loginPost**](docs/DefaultApi.md#loginPost) | **POST** /login | Logs you in
 *MitlUferPublicApi.DefaultApi* | [**modifyUser**](docs/DefaultApi.md#modifyUser) | **PUT** /user | changes your user
 *MitlUferPublicApi.DefaultApi* | [**searchUserDatabase**](docs/DefaultApi.md#searchUserDatabase) | **GET** /users/getSearch | searches user Database
+*MitlUferPublicApi.DefaultApi* | [**usersGetAllGet**](docs/DefaultApi.md#usersGetAllGet) | **GET** /users/getAll | Returns all users
 
 
 ## Documentation for Models
