@@ -92,47 +92,6 @@
     }
 
     /**
-     * Callback function to receive the result of the getAllUSers operation.
-     * @callback module:api/DefaultApi~getAllUSersCallback
-     * @param {String} error Error message, if any.
-     * @param {Array.<module:model/User>} data The data returned by the service call.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Returns all users
-     * By passing in the appropriate options, you can search for available inventory in the system 
-     * @param {module:api/DefaultApi~getAllUSersCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link Array.<module:model/User>}
-     */
-    this.getAllUSers = function(callback) {
-      var postBody = null;
-
-
-      var pathParams = {
-      };
-      var queryParams = {
-      };
-      var collectionQueryParams = {
-      };
-      var headerParams = {
-      };
-      var formParams = {
-      };
-
-      var authNames = [];
-      var contentTypes = [];
-      var accepts = ['application/json'];
-      var returnType = [User];
-
-      return this.apiClient.callApi(
-        '/users/getAll', 'GET',
-        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
-    }
-
-    /**
      * Callback function to receive the result of the loginPost operation.
      * @callback module:api/DefaultApi~loginPostCallback
      * @param {String} error Error message, if any.
@@ -266,6 +225,47 @@
 
       return this.apiClient.callApi(
         '/users/getSearch', 'GET',
+        pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
+        authNames, contentTypes, accepts, returnType, callback
+      );
+    }
+
+    /**
+     * Callback function to receive the result of the usersGetAllGet operation.
+     * @callback module:api/DefaultApi~usersGetAllGetCallback
+     * @param {String} error Error message, if any.
+     * @param {Array.<module:model/User>} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Returns all users
+     * By passing in the appropriate options, you can search for available inventory in the system 
+     * @param {module:api/DefaultApi~usersGetAllGetCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link Array.<module:model/User>}
+     */
+    this.usersGetAllGet = function(callback) {
+      var postBody = null;
+
+
+      var pathParams = {
+      };
+      var queryParams = {
+      };
+      var collectionQueryParams = {
+      };
+      var headerParams = {
+      };
+      var formParams = {
+      };
+
+      var authNames = [];
+      var contentTypes = [];
+      var accepts = ['application/json'];
+      var returnType = [User];
+
+      return this.apiClient.callApi(
+        '/users/getAll', 'GET',
         pathParams, queryParams, collectionQueryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
