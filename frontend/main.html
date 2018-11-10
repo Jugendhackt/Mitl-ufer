@@ -11,7 +11,6 @@
   <img class="items" src="img/logo.png"> <br>
 </div>
   <div id="list">
-    </div>
     <hr>
 
     <script src="http://twitter.github.com/hogan.js/builds/3.0.1/hogan-3.0.1.js"></script>
@@ -21,15 +20,15 @@
       var rendering = template.render({name: "Karl", laufOrt: "Gützingen", mail: "hierGeht@DerPunkAb.gützingen", skill:"img/fünfSterne.png"  });
       console.log("Hallo");
       document.getElementById("list").innerHTML = rendering;
-      window.onload = loadingFunction;
+    /*  window.onload = loadingFunction;
       function loadingFunction(){
         var liste = this.getAllUSers;
         console.log(String(liste));
-      }
+      } */
       var rendering2 = template.render({name: "Brigitte", laufOrt: "Dresden", mail: "hierGeht@DerPunkAb.gützingen", skill: "img/einStern.png" });
       var rendering3 = template.render({name: "Chantal", laufOrt: "Köln", mail: "hierGeht@DerPunkAb.gützingen", skill: "img/dreiSterne.png" });
       document.getElementById("list").innerHTML = rendering + rendering2 + rendering3;
     </script>
-
+</div>
 </body>
 </html>
