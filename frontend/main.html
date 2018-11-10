@@ -7,10 +7,11 @@
   <meta charset="utf-8">
 </head>
 <body>
-  <div class="container">
-  <img class="items" src="img/logo.png"> <br>
+  <div class="header" id="myHeader">
+  <img class="items" src="img/logo.png">
 </div>
   <div id="list">
+  </div>
     <hr>
 
     <script src="http://twitter.github.com/hogan.js/builds/3.0.1/hogan-3.0.1.js"></script>
@@ -27,8 +28,19 @@
       } */
       var rendering2 = template.render({name: "Brigitte", laufOrt: "Dresden", mail: "hierGeht@DerPunkAb.gützingen", skill: "img/einStern.png" });
       var rendering3 = template.render({name: "Chantal", laufOrt: "Köln", mail: "hierGeht@DerPunkAb.gützingen", skill: "img/dreiSterne.png" });
-      document.getElementById("list").innerHTML = rendering + rendering2 + rendering3;
+      var rendering4 = template.render({name: "Alex", laufOrt: "Bielefeld", mail: "hierGeht@DerPunkAb.gützingen", skill: "img/einStern.png" });
+      document.getElementById("list").innerHTML = rendering + rendering2 + rendering3 +rendering4;
+
+      window.onscroll = function() {myFunction()};
+      var header = document.getElementById("myHeader");
+      var sticky = header.offsetTop;
+      function myFunction() {
+        if (window.pageYOffset > sticky) {
+         header.classList.add("sticky");
+        } else {
+         header.classList.remove("sticky");
+          }
+        }
     </script>
-</div>
 </body>
 </html>
