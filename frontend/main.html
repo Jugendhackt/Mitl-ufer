@@ -5,27 +5,27 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-  <div id="list">
+    <div id="list">
+    </div>
+    <div id= "test">
     </div>
     <hr>
 
     <script src="http://twitter.github.com/hogan.js/builds/3.0.1/hogan-3.0.1.js"></script>
-    <script type="text/javascript" src="./wrapper/src/api/DefaultApi.js"></script>
+    <script type="text/javascript" src="./js/main.js"></script>
     <script>
-      var template = Hogan.compile('<hr> <h2> {{name}} </h2><text class="laufOrt"> {{laufOrt}} </text> <a href="mailto:{{mail}}"><div class="fa fa-envelope"></div></a>');
-      var rendering = template.render({name: "Kaaaaarl", laufOrt: "Gützingen", mail: "hierGeht@DerPunkAb.gützingen" });
-<<<<<<< HEAD
-      console.log("Hallo");
-      document.getElementById("list").innerHTML = rendering;
       window.onload = loadingFunction;
+
       function loadingFunction(){
-        var liste = this.getAllUSers;
-        console.log(String(liste));
+        usersGetAllGet().then(function(response) {
+          var template = Hogan.compile('{{#response}}<hr> <h2> {{name}} </h2><text class="laufOrt"> {{laufort}} </text> <a href="mailto:{{eMail}}"><div class="fa fa-envelope"></div></a>{{/response}}');
+          // console.log(template);
+          var rendering = template.render({response: response});
+          // console.log(rendering);
+          document.getElementById("test").innerHTML = rendering;
+          // console.log(response[0]);
+        });
       }
-=======
-      var rendering2 = template.render({name: "Brigitte", laufOrt: "Hodenhagen", mail: "hierGeht@DerPunkAb.gützingen" });
-      document.getElementById("list").innerHTML = rendering + rendering2;
->>>>>>> 9ee591c58871a2831cff4bedcab8da9edde745ab
     </script>
 
 </body>
