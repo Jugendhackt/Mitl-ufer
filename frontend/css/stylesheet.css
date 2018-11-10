@@ -2,13 +2,28 @@ body {
   background-color: #34312d;
 
   color: #f3f3f4;
-  font-size: 200%;
+  font-size: 300%;
   font-family: 'Noto Sans', sans-serif;
+  text-align: center;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.item {
+  align-self: center;
+  width: 40%;
 }
 
 h1 {
   color: #5cb8d7;
   font-size: 250%;
+  margin-bottom: 15%;
 }
 
 button {
@@ -21,7 +36,8 @@ button {
   border-color: #d80056;
   border-radius: 20px;
 
-  padding: 2%;
+  padding: 4%;
+  margin: 1%;
 }
 
 input :hover {
@@ -31,6 +47,7 @@ input :hover {
 }
 
 input {
+  text-align: center;
   font-size: inherit;
   color: #7e7f83;
   background-color: inherit;
