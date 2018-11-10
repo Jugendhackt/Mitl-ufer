@@ -7,6 +7,26 @@ body {
   text-align: center;
 }
 
+.header {
+  background-color: #d80056; 
+}
+
+.p-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 8%;
+}
+
+.person {
+  align-self: center;
+  width: 40%;
+  margin-bottom: 6%;
+  justify-content: center;
+}
+
 .container{
   display: flex;
   flex-direction: column;
@@ -62,12 +82,6 @@ hr {
   border-width: 1px;
 }
 
-input :hover {
-  border-color: #BFBFC4;
-  color: inherit;
-  background-color: #BFBFC4;
-}
-
 input {
   text-align: center;
   font-size: inherit;
@@ -81,4 +95,10 @@ input {
 
   padding: 2%;
   margin: 4%;
+}
+
+.stern {
+  width: 20%;
+  margin-top: -5%;
+  margin-right: -5%;
 }
