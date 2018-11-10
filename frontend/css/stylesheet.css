@@ -135,3 +135,8 @@ input {
   align-self: flex-start;
   margin: 5%;
 }
+
+#devs{
+  height: 100vh;
+  text-align: center;
+}
