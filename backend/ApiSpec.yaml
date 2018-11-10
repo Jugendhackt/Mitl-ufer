@@ -1,0 +1,120 @@
+openapi: 3.0.0
+servers: []
+info:
+  description: This is the public API of Mitl-ufer
+  version: "1.0.0"
+  title: Mitl-ufer public API
+  contact:
+    email: tobrohl@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: open
+    description: Operations available to anyone
+paths:
+  /user:
+    get:
+      tags:
+        - open
+      summary: searches user Database
+      operationId: searchUserDatabase
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      parameters:
+        - in: query
+          name: searchString
+          description: pass an optional search string fo
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: skip
+          description: number of records to skip for pagination
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+        - in: query
+          name: limit
+          description: maximum number of records to return
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - open
+      summary: adds an user
+      operationId: AddUser
+      description: Adds an user to the system
+      responses:
+        '201':
+          description: item created
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: User to add
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - name
+        - laufort
+        - eMail
+        - laufniveau
+        - geburtsdatum
+        - geschlecht
+        - ziel
+        - profilbild
+      properties:
+        name:
+          type: string
+          example: HalloWelt
+        laufort:
+          type: integer
+          example: 32657
+        eMail:
+          type: string
+          example: DeineAdresse@gmail.com
+        geburtsdatum: 
+          type: string
+          format: date
+          example: 27.01.2003
+        laufniveau:
+          type: string
+          enum: &Laufniveau
+            - Anfaenger
+            - Fortgeschritten
+            - Profi
+        geschlecht:
+          type: string
+          enum: &Geschlecht
+            - Mann
+            - Frau
+            - Keins
+        ziel:
+          type: integer
+        profilbild:
+          type: string
+          example: Not implemented yet
