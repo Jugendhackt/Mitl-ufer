@@ -32,7 +32,8 @@ namespace Org.OpenAPITools.Controllers {
 		/// adds an user
 		/// </summary>
 		/// <remarks>Adds an user to the system</remarks>
-		/// <param name="user">User to add</param>
+		/// <param name="userprofile">The userprofile to add</param>
+		/// <param name="password">The password for the new user</param>
 		/// <response code="201">item created</response>
 		/// <response code="400">invalid input, object invalid</response>
 		/// <response code="409">an existing item already exists</response>
@@ -47,7 +48,7 @@ namespace Org.OpenAPITools.Controllers {
 
 			db.Add(user);
 			return StatusCode(200);
-			 
+
 			//TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
 			// return StatusCode(201);
 
@@ -56,6 +57,7 @@ namespace Org.OpenAPITools.Controllers {
 
 			//TODO: Uncomment the next line to return response 409 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
 			// return StatusCode(409);
+
 
 			throw new NotImplementedException();
 		}
@@ -71,15 +73,16 @@ namespace Org.OpenAPITools.Controllers {
 		[HttpPost]
 		[Route("/login")]
 		[ValidateModelState]
-		[SwaggerOperation("LoginPost")]
+		[SwaggerOperation("LoginIn")]
 		public virtual IActionResult LoginPost([FromQuery] string username, [FromQuery] string password) {
-			HashAlgorithm hashAlgorithm=new SHA256Managed();
-			byte[] hash = hashAlgorithm.ComputeHash(Enumerable.Range(0, 2).SelectMany(x => x == 1 ? Encoding.UTF32.GetBytes(password)  : new byte[]{2}).ToArray());
+			HashAlgorithm hashAlgorithm = new SHA256Managed();
+			byte[] hash = hashAlgorithm.ComputeHash(Enumerable.Range(0, 2)
+				.SelectMany(x => x == 1 ? Encoding.UTF32.GetBytes(password) : new byte[] {2}).ToArray());
 			if (hash.SequenceEqual(dbHash)) {
 				byte[] rndBuffer = new byte[8];
 				new Random().NextBytes(rndBuffer);
 				long jsessionid = BitConverter.ToInt64(rndBuffer);
-				Response.Headers.Add("JSESSIONID",jsessionid.ToString());
+				Response.Headers.Add("JSESSIONID", jsessionid.ToString());
 				return StatusCode(200);
 			}
 
@@ -89,6 +92,7 @@ namespace Org.OpenAPITools.Controllers {
 
 			//TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
 			// return StatusCode(201);
+
 
 			throw new NotImplementedException();
 		}
@@ -114,9 +118,10 @@ namespace Org.OpenAPITools.Controllers {
 				return StatusCode(400);
 			}
 
-			if (db[jsessionid].username!=newUserData.Name) {
+			if (db[jsessionid].username != newUserData.Name) {
 				return StatusCode(403);
 			}
+
 			//TODO change
 			return StatusCode(200);
 			//TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
@@ -127,6 +132,7 @@ namespace Org.OpenAPITools.Controllers {
 
 			//TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
 			// return StatusCode(403);
+
 
 			throw new NotImplementedException();
 		}
@@ -176,18 +182,26 @@ namespace Org.OpenAPITools.Controllers {
 		[SwaggerResponse(statusCode: 200, type: typeof(List<User>), description: "All users")]
 		public virtual IActionResult UsersGetAllGet() {
 			//TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-			 //return StatusCode(200, default(List<User>));
+			// return StatusCode(200, default(List<User>));
 
 			string exampleJson = null;
+			exampleJson =
+				"{\r\n  \"geburtsdatum\" : \"2000-01-23\",\r\n  \"laufniveau\" : \"Anfaenger\",\r\n  \"name\" : \"HalloWelt\",\r\n  \"laufort\" : \"32657\",\r\n  \"profilbild\" : \"Not implemented yet\",\r\n  \"eMail\" : \"DeineAdresse@gmail.com\",\r\n  \"ziel\" : 0\r\n}";
+
+			var example = exampleJson != null
+				? JsonConvert.DeserializeObject<List<User>>(exampleJson)
+				: default(List<User>);
 			//TODO: Change the data returned
 			//Response.StatusCode = 200;
 			//return new StatusCodeResult(200);
-			return new ObjectResult(new List<User>(new []{
+			return new ObjectResult(new List<User>(new[] {
 				new User() {
-					EMail = "xzy", Laufniveau = Models.User.LaufniveauEnum.AnfaengerEnum, Geburtsdatum = new DateTime(1990,1,27),
-					Laufort = "32657", Name = "Max Musterman", Profilbild = "https://en.wikipedia.org/wiki/Purple#/media/File:Queen_Elizabeth_II_in_March_2015.jpg", Ziel = 20
+					EMail = "xzy", Laufniveau = Models.User.LaufniveauEnum.AnfaengerEnum, Geburtsdatum = new DateTime(1990, 1, 27),
+					Laufort = "32657", Name = "Max Musterman",
+					Profilbild = "https://en.wikipedia.org/wiki/Purple#/media/File:Queen_Elizabeth_II_in_March_2015.jpg", Ziel = 20
 				}
-			})) ;
+			}));
 		}
 	}
 }
+        
