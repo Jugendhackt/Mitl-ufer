@@ -146,7 +146,6 @@ components:
         - eMail
         - laufniveau
         - geburtsdatum
-        - geschlecht
         - ziel
         - profilbild
       properties:
