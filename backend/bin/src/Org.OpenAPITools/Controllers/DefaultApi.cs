@@ -45,14 +45,31 @@ namespace Org.OpenAPITools.Controllers {
 		[ValidateModelState]
 		[SwaggerOperation("AddUser")]
 		public virtual IActionResult AddUser([FromBody] User user) {
+			MySqlCommand cmd = new MySqlCommand("SELECT PasswordHash FROM users WHERE Username = ?", Program.SqlServer);
+			cmd.Parameters.Add("Username", MySqlDbType.VarChar, 63).Value = user.Name;
+			MySqlDataReader mySqlDataReader = cmd.ExecuteReader();
+			bool exists = false;
+			while (mySqlDataReader.Read()) {
+				exists = true;
+				break;
+			}
+mySqlDataReader.Close();
+			if (exists) {
+				return StatusCode(409);
+			}
+
+			cmd = new MySqlCommand("INSERT INTO users (Username, Postalcode, EMail, Age, Picture, Target, Laufniveau, PasswordHash) VALUES (@Name,@Postal,@EMail,@Age,@Picture,@Target,@Niveau,@PasswordHash)", Program.SqlServer);
+			cmd.Parameters.Add("@Name", MySqlDbType.VarChar, 63).Value = user.Name;
+			cmd.Parameters.Add("@Postal", MySqlDbType.VarChar, 5).Value = user.Laufort;
+			cmd.Parameters.Add("@EMail", MySqlDbType.VarChar, 63).Value = user.EMail;
+			cmd.Parameters.Add("@Age", MySqlDbType.VarChar, 63).Value = user.Geburtsdatum;
+			cmd.Parameters.Add("@Picture", MySqlDbType.VarChar, 255).Value = user.Profilbild;
+			cmd.Parameters.Add("@Target", MySqlDbType.Int32).Value = user.Ziel;
+			cmd.Parameters.Add("@Niveau", MySqlDbType.VarChar, 63).Value = user.Laufniveau;
+			cmd.Parameters.Add("@PasswordHash", MySqlDbType.VarChar, 63).Value = user.Name;
+			cmd.ExecuteNonQuery();
+			return StatusCode(200);
 #if false
-						if (db.contains(user.Name)) {
-         				return StatusCode(409);
-         			}
-         
-         			db.Add(user);
-         			return StatusCode(200);
-         
          			//TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
          			// return StatusCode(201);
          
@@ -66,7 +83,6 @@ namespace Org.OpenAPITools.Controllers {
          			
 #endif
 			throw new NotImplementedException();
-
 		}
 
 		public static byte[] StringToByteArray(string hex) {
@@ -75,6 +91,7 @@ namespace Org.OpenAPITools.Controllers {
 				.Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
 				.ToArray();
 		}
+
 		/// <summary>
 		/// Logs you in
 		/// </summary>
@@ -91,14 +108,15 @@ namespace Org.OpenAPITools.Controllers {
 			HashAlgorithm hashAlgorithm = new SHA256Managed();
 			byte[] hash = hashAlgorithm.ComputeHash(Enumerable.Range(0, 2)
 				.SelectMany(x => x == 1 ? Encoding.UTF32.GetBytes(password) : new byte[] {2}).ToArray());
-			
+
 			MySqlCommand cmd = new MySqlCommand("SELECT PasswordHash FROM users WHERE Username = ?", Program.SqlServer);
 			cmd.Parameters.Add("Username", MySqlDbType.VarChar, 63).Value = username;
 			MySqlDataReader mySqlDataReader = cmd.ExecuteReader();
-			string dbHashStr="";
+			string dbHashStr = "";
 			while (mySqlDataReader.Read()) {
 				dbHashStr = mySqlDataReader["PasswordHash"].ToString();
 			}
+
 			//dbHashStr = mySqlDataReader.GetString(0);
 			if (!hash.SequenceEqual(StringToByteArray(dbHashStr))) {
 				return StatusCode(201);
@@ -107,14 +125,13 @@ namespace Org.OpenAPITools.Controllers {
 			byte[] rndBuffer = new byte[8];
 			new Random().NextBytes(rndBuffer);
 			long jsessionid = BitConverter.ToInt64(rndBuffer);
-			cmd=new MySqlCommand("UPDATE tokens SET Token = ? WHERE Username = ?;", Program.SqlServer);
+			cmd = new MySqlCommand("UPDATE tokens SET Token = ? WHERE Username = ?;", Program.SqlServer);
 			cmd.Parameters.Add("Username", MySqlDbType.VarChar, 63).Value = username;
 			cmd.Parameters.Add("Token", SqlDbType.BigInt).Value = jsessionid;
 			cmd.ExecuteNonQuery();
 			Response.Headers.Add("JSESSIONID", jsessionid.ToString());
-			
-			return StatusCode(200);
 
+			return StatusCode(200);
 		}
 
 		/// <summary>
@@ -157,7 +174,7 @@ namespace Org.OpenAPITools.Controllers {
       
       			
 #endif
-throw new NotImplementedException();	
+			throw new NotImplementedException();
 		}
 
 		/// <summary>
@@ -210,7 +227,7 @@ throw new NotImplementedException();
 			//TODO: Change the data returned
 			//Response.StatusCode = 200;
 			//return new StatusCodeResult(200);
-			Response.Headers.Add("Access-Control-Allow-Origin","*");
+			Response.Headers.Add("Access-Control-Allow-Origin", "*");
 			return new ObjectResult(new List<User>(new[] {
 				new User() {
 					EMail = "xzy", Laufniveau = Models.User.LaufniveauEnum.AnfaengerEnum, Geburtsdatum = new DateTime(1990, 1, 27),
@@ -226,4 +243,3 @@ throw new NotImplementedException();
 		}
 	}
 }
-        
