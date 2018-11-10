@@ -1,5 +1,6 @@
 openapi: 3.0.0
-servers: []
+servers:
+  - url: http://172.22.42.100:8080/
 info:
   description: This is the public API of Mitl-ufer
   version: "1.0.0"
@@ -9,9 +10,6 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-tags:
-  - name: open
-    description: Operations available to anyone
 paths:
   /login:
     post:
@@ -43,7 +41,6 @@ paths:
   /user:
     put:
       summary: changes your user
-      operationId: ModifyUser
       description: Changes your own user
       security:
         - cookieAuth: []
@@ -64,7 +61,6 @@ paths:
   /users/getSearch:
     get:
       summary: searches user Database
-      operationId: searchUserDatabase
       description: |
         By passing in the appropriate options, you can search for
         available inventory in the system
@@ -104,9 +100,7 @@ paths:
   /users/getAll:
     get:
       summary: Returns all users
-      operationId: getAllUSers
-      description: |
-        By passing in the appropriate options, you can search for
+      description: By passing in the appropriate options, you can search for
         available inventory in the system
       responses:
         '200':
@@ -117,10 +111,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
-  /CreateAccount:
+  /createAccount:
     post:
       summary: adds an user
-      operationId: AddUser
+
       description: Adds an user to the system
       responses:
         '201':

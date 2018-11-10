@@ -34,10 +34,10 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="400">invalid input, object invalid</response>
         /// <response code="409">an existing item already exists</response>
         [HttpPost]
-        [Route("/CreateAccount")]
+        [Route("/createAccount")]
         [ValidateModelState]
-        [SwaggerOperation("AddUser")]
-        public virtual IActionResult AddUser([FromBody]User user)
+        [SwaggerOperation("CreateAccountPost")]
+        public virtual IActionResult CreateAccountPost([FromBody]User user)
         { 
             //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(201);
@@ -50,31 +50,6 @@ namespace Org.OpenAPITools.Controllers
 
 
             throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Returns all users
-        /// </summary>
-        /// <remarks>By passing in the appropriate options, you can search for available inventory in the system </remarks>
-        /// <response code="200">All users</response>
-        [HttpGet]
-        [Route("/users/getAll")]
-        [ValidateModelState]
-        [SwaggerOperation("GetAllUSers")]
-        [SwaggerResponse(statusCode: 200, type: typeof(List<User>), description: "All users")]
-        public virtual IActionResult GetAllUSers()
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(List<User>));
-
-            string exampleJson = null;
-            exampleJson = "{\r\n  \"geburtsdatum\" : \"2000-01-23\",\r\n  \"laufniveau\" : \"Anfaenger\",\r\n  \"name\" : \"HalloWelt\",\r\n  \"laufort\" : \"32657\",\r\n  \"profilbild\" : \"Not implemented yet\",\r\n  \"eMail\" : \"DeineAdresse@gmail.com\",\r\n  \"ziel\" : 0\r\n}";
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<List<User>>(exampleJson)
-            : default(List<User>);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
         }
 
         /// <summary>
@@ -112,8 +87,8 @@ namespace Org.OpenAPITools.Controllers
         [HttpPut]
         [Route("/user")]
         [ValidateModelState]
-        [SwaggerOperation("ModifyUser")]
-        public virtual IActionResult ModifyUser([FromQuery]User newUserData)
+        [SwaggerOperation("UserPut")]
+        public virtual IActionResult UserPut([FromQuery]User newUserData)
         { 
             //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(201);
@@ -129,6 +104,31 @@ namespace Org.OpenAPITools.Controllers
         }
 
         /// <summary>
+        /// Returns all users
+        /// </summary>
+        /// <remarks>By passing in the appropriate options, you can search for available inventory in the system</remarks>
+        /// <response code="200">All users</response>
+        [HttpGet]
+        [Route("/users/getAll")]
+        [ValidateModelState]
+        [SwaggerOperation("UsersGetAllGet")]
+        [SwaggerResponse(statusCode: 200, type: typeof(List<User>), description: "All users")]
+        public virtual IActionResult UsersGetAllGet()
+        { 
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(List<User>));
+
+            string exampleJson = null;
+            exampleJson = "{\r\n  \"geburtsdatum\" : \"2000-01-23\",\r\n  \"laufniveau\" : \"Anfaenger\",\r\n  \"name\" : \"HalloWelt\",\r\n  \"laufort\" : \"32657\",\r\n  \"profilbild\" : \"Not implemented yet\",\r\n  \"eMail\" : \"DeineAdresse@gmail.com\",\r\n  \"ziel\" : 0\r\n}";
+            
+            var example = exampleJson != null
+            ? JsonConvert.DeserializeObject<List<User>>(exampleJson)
+            : default(List<User>);
+            //TODO: Change the data returned
+            return new ObjectResult(example);
+        }
+
+        /// <summary>
         /// searches user Database
         /// </summary>
         /// <remarks>By passing in the appropriate options, you can search for available inventory in the system </remarks>
@@ -140,9 +140,9 @@ namespace Org.OpenAPITools.Controllers
         [HttpGet]
         [Route("/users/getSearch")]
         [ValidateModelState]
-        [SwaggerOperation("SearchUserDatabase")]
+        [SwaggerOperation("UsersGetSearchGet")]
         [SwaggerResponse(statusCode: 200, type: typeof(List<User>), description: "search results matching criteria")]
-        public virtual IActionResult SearchUserDatabase([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery][Range(0, 50)]int? limit)
+        public virtual IActionResult UsersGetSearchGet([FromQuery]string searchString, [FromQuery]int? skip, [FromQuery][Range(0, 50)]int? limit)
         { 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(List<User>));
