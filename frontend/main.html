@@ -1,0 +1,21 @@
+<!DOCTYPE = html>
+<html>
+<head>
+  <link href="css/stylesheet.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <div id="list">
+    something default
+    </div>
+
+    <script src="http://twitter.github.com/hogan.js/builds/3.0.1/hogan-3.0.1.js"></script>
+    <script>
+      var template = Hogan.compile('<h1> {{name}} </h1><text class="laufOrt"> {{laufOrt}} </text> <a href="mailto:{{mail}}"><i class="fa fa-envelope"></i></a> <hr>');
+      var rendering = template.render({name: "Kaaaaarl", laufOrt: "Gützingen", mail: "hierGeht@DerPunkAb.gützingen" });
+      console.log("Hallo");
+      document.getElementById("list").innerHTML = rendering;
+    </script>
+
+</body>
+</html>
