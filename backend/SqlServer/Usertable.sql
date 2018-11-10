@@ -11,7 +11,7 @@ CREATE TABLE 	Users (
 );
 
 CREATE TABLE Tokens (
-	Token int NOT NULL,
+	Token long NOT NULL,
     Username varchar(63) NOT NULL,
     PRIMARY KEY (Username),
 	FOREIGN KEY (Username) REFERENCES Users(Username)
@@ -22,3 +22,5 @@ VALUES ('testBoy','1', '123','123','123',1,1,'123' );
 
 INSERT INTO Tokens
 VALUES (12345,'testBoy' );
+
+SELECT * FROM users

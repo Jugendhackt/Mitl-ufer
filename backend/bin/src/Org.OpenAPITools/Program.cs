@@ -1,6 +1,7 @@
 using System.Data.SqlClient;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore;
+using MySql.Data.MySqlClient;
 
 namespace Org.OpenAPITools
 {
@@ -8,14 +9,18 @@ namespace Org.OpenAPITools
     /// Program
     /// </summary>
     public class Program {
-        internal static SqlConnection SqlServer;
+        internal static MySqlConnection SqlServer;
         /// <summary>
         /// Main
         /// </summary>
         /// <param name="args"></param>
-        public static void Main(string[] args)
-        {
-            SqlServer = new SqlConnection("user id=root;password='';server=localhost:3306;Trusted_Connection=yes;database=Test; connection timeout=5");
+        public static void Main(string[] args) {
+            SqlServer =
+                new MySqlConnection(
+                    "user id=root;server=localhost;database=test; connection timeout=5");
+            SqlServer.Open();
+           // "server=localhost;database=testDB;uid=root;pwd=abc123;";
+            //SqlServer = new SqlConnection("user id=root;password='your_password';server=localhost;database=test; connection timeout=5");
             //SqlServer.Open();
             CreateWebHostBuilder(args).Build().Run();
         }
@@ -25,9 +30,11 @@ namespace Org.OpenAPITools
         /// </summary>
         /// <param name="args"></param>
         /// <returns>IWebHostBuilder</returns>
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) {
+            string ip = "localhost";
+            return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseUrls("http://172.22.42.100:8080/");
+                .UseUrls($"http://{ip}:8080/");
+        }
     }
 }

@@ -22,6 +22,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Rewrite.Internal;
+using MySql.Data.MySqlClient;
 using Org.OpenAPITools.Attributes;
 using Org.OpenAPITools.Models;
 
@@ -91,18 +92,23 @@ namespace Org.OpenAPITools.Controllers {
 			byte[] hash = hashAlgorithm.ComputeHash(Enumerable.Range(0, 2)
 				.SelectMany(x => x == 1 ? Encoding.UTF32.GetBytes(password) : new byte[] {2}).ToArray());
 			
-			SqlCommand cmd = new SqlCommand("SELECT PasswordHash FROM users WHERE Username = ?", Program.SqlServer);
-			cmd.Parameters.Add("Username", SqlDbType.VarChar, 63).Value = username;
-			string dbHashStr = cmd.ExecuteReader().GetString(0);
-			if (hash.SequenceEqual(StringToByteArray(dbHashStr))) {
+			MySqlCommand cmd = new MySqlCommand("SELECT PasswordHash FROM users WHERE Username = ?", Program.SqlServer);
+			cmd.Parameters.Add("Username", MySqlDbType.VarChar, 63).Value = username;
+			MySqlDataReader mySqlDataReader = cmd.ExecuteReader();
+			string dbHashStr="";
+			while (mySqlDataReader.Read()) {
+				dbHashStr = mySqlDataReader["PasswordHash"].ToString();
+			}
+			//dbHashStr = mySqlDataReader.GetString(0);
+			if (!hash.SequenceEqual(StringToByteArray(dbHashStr))) {
 				return StatusCode(201);
 			}
 
 			byte[] rndBuffer = new byte[8];
 			new Random().NextBytes(rndBuffer);
 			long jsessionid = BitConverter.ToInt64(rndBuffer);
-			cmd=new SqlCommand("UPDATE tokens SET Token = ? WHERE Username = ?;", Program.SqlServer);
-			cmd.Parameters.Add("Username", SqlDbType.VarChar, 63).Value = username;
+			cmd=new MySqlCommand("UPDATE tokens SET Token = ? WHERE Username = ?;", Program.SqlServer);
+			cmd.Parameters.Add("Username", MySqlDbType.VarChar, 63).Value = username;
 			cmd.Parameters.Add("Token", SqlDbType.BigInt).Value = jsessionid;
 			cmd.ExecuteNonQuery();
 			Response.Headers.Add("JSESSIONID", jsessionid.ToString());
@@ -209,6 +215,11 @@ throw new NotImplementedException();
 				new User() {
 					EMail = "xzy", Laufniveau = Models.User.LaufniveauEnum.AnfaengerEnum, Geburtsdatum = new DateTime(1990, 1, 27),
 					Laufort = "32657", Name = "Max Musterman",
+					Profilbild = "https://en.wikipedia.org/wiki/Purple#/media/File:Queen_Elizabeth_II_in_March_2015.jpg", Ziel = 20
+				},
+				new User() {
+					EMail = "xzy", Laufniveau = Models.User.LaufniveauEnum.AnfaengerEnum, Geburtsdatum = new DateTime(1990, 1, 27),
+					Laufort = "32657", Name = "Max Leer",
 					Profilbild = "https://en.wikipedia.org/wiki/Purple#/media/File:Queen_Elizabeth_II_in_March_2015.jpg", Ziel = 20
 				}
 			}));
