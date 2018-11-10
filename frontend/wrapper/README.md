@@ -97,7 +97,8 @@ var MitlUferPublicApi = require('mitl_ufer_public_api');
 
 var api = new MitlUferPublicApi.DefaultApi()
 var opts = {
-  'user': new MitlUferPublicApi.User() // {User} User to add
+  'userprofile': new MitlUferPublicApi.User(), // {User} The userprofile to add
+  'password': "password_example" // {String} The password for the new user
 };
 
 var callback = function(error, data, response) {
@@ -118,7 +119,7 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *MitlUferPublicApi.DefaultApi* | [**addUser**](docs/DefaultApi.md#addUser) | **POST** /CreateAccount | adds an user
-*MitlUferPublicApi.DefaultApi* | [**loginPost**](docs/DefaultApi.md#loginPost) | **POST** /login | Logs you in
+*MitlUferPublicApi.DefaultApi* | [**logIn**](docs/DefaultApi.md#logIn) | **POST** /login | Logs you in
 *MitlUferPublicApi.DefaultApi* | [**modifyUser**](docs/DefaultApi.md#modifyUser) | **PUT** /user | changes your user
 *MitlUferPublicApi.DefaultApi* | [**searchUserDatabase**](docs/DefaultApi.md#searchUserDatabase) | **GET** /users/getSearch | searches user Database
 *MitlUferPublicApi.DefaultApi* | [**usersGetAllGet**](docs/DefaultApi.md#usersGetAllGet) | **GET** /users/getAll | Returns all users

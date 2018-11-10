@@ -60,17 +60,20 @@
      * adds an user
      * Adds an user to the system
      * @param {Object} opts Optional parameters
-     * @param {module:model/User} opts.user User to add
+     * @param {module:model/User} opts.userprofile The userprofile to add
+     * @param {String} opts.password The password for the new user
      * @param {module:api/DefaultApi~addUserCallback} callback The callback function, accepting three arguments: error, data, response
      */
     this.addUser = function(opts, callback) {
       opts = opts || {};
-      var postBody = opts['user'];
+      var postBody = null;
 
 
       var pathParams = {
       };
       var queryParams = {
+        'userprofile': opts['userprofile'],
+        'password': opts['password'],
       };
       var collectionQueryParams = {
       };
@@ -80,7 +83,7 @@
       };
 
       var authNames = [];
-      var contentTypes = ['application/json'];
+      var contentTypes = [];
       var accepts = [];
       var returnType = null;
 
@@ -92,8 +95,8 @@
     }
 
     /**
-     * Callback function to receive the result of the loginPost operation.
-     * @callback module:api/DefaultApi~loginPostCallback
+     * Callback function to receive the result of the logIn operation.
+     * @callback module:api/DefaultApi~logInCallback
      * @param {String} error Error message, if any.
      * @param data This operation does not return a value.
      * @param {String} response The complete HTTP response.
@@ -105,9 +108,9 @@
      * @param {Object} opts Optional parameters
      * @param {String} opts.username the username you entered on Account creation
      * @param {String} opts.password the password you choose
-     * @param {module:api/DefaultApi~loginPostCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {module:api/DefaultApi~logInCallback} callback The callback function, accepting three arguments: error, data, response
      */
-    this.loginPost = function(opts, callback) {
+    this.logIn = function(opts, callback) {
       opts = opts || {};
       var postBody = null;
 
