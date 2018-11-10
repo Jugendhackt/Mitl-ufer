@@ -3,8 +3,12 @@
 <head>
   <link href="css/stylesheet.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <meta charset="utf-8">
 </head>
 <body>
+  <nav class="header">
+    <a href="start.html"><img src=""</a>
+  </nav>
   <div id="list">
     </div>
     <hr>
@@ -12,8 +16,8 @@
     <script src="http://twitter.github.com/hogan.js/builds/3.0.1/hogan-3.0.1.js"></script>
     <script type="text/javascript" src="./wrapper/src/api/DefaultApi.js"></script>
     <script>
-      var template = Hogan.compile('<hr> <h2> {{name}} </h2><text class="laufOrt"> {{laufOrt}} </text> <a href="mailto:{{mail}}"><div class="fa fa-envelope"></div></a>');
-      var rendering = template.render({name: "Kaaaaarl", laufOrt: "Gützingen", mail: "hierGeht@DerPunkAb.gützingen" });
+      var template = Hogan.compile('<hr> <div class="p-container"> <div class="person"> <h2> {{name}} </h2><text class="laufOrt"> {{laufOrt}} </text> <a href="mailto:{{mail}}"><div class="fa fa-envelope"></div></a> </div> <img class="stern" class="person" src ={{skill}}> </br> </div> ');
+      var rendering = template.render({name: "Kaaaaarl", laufOrt: "Gützingen", mail: "hierGeht@DerPunkAb.gützingen", skill:"img/fünfSterne.png"  });
       console.log("Hallo");
       document.getElementById("list").innerHTML = rendering;
       window.onload = loadingFunction;
@@ -21,8 +25,9 @@
         var liste = this.getAllUSers;
         console.log(String(liste));
       }
-      var rendering2 = template.render({name: "Brigitte", laufOrt: "Hodenhagen", mail: "hierGeht@DerPunkAb.gützingen" });
-      document.getElementById("list").innerHTML = rendering + rendering2;
+      var rendering2 = template.render({name: "Brigitte", laufOrt: "Hodenhagen", mail: "hierGeht@DerPunkAb.gützingen", skill: "img/einStern.png" });
+      var rendering3 = template.render({name: "Chantal", laufOrt: "Köln", mail: "hierGeht@DerPunkAb.gützingen", skill: "img/dreiSterne.png" });
+      document.getElementById("list").innerHTML = rendering + rendering2 + rendering3;
     </script>
 
 </body>
