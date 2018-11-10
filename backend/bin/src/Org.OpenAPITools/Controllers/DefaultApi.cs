@@ -34,7 +34,7 @@ namespace Org.OpenAPITools.Controllers
         /// <response code="400">invalid input, object invalid</response>
         /// <response code="409">an existing item already exists</response>
         [HttpPost]
-        [Route("/CreateAccount")]
+        [Route("/createAccount")]
         [ValidateModelState]
         [SwaggerOperation("CreateAccountPost")]
         public virtual IActionResult CreateAccountPost([FromBody]User user)

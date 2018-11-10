@@ -173,7 +173,7 @@
         }
       }
     },
-    "/CreateAccount" : {
+    "/createAccount" : {
       "post" : {
         "summary" : "adds an user",
         "description" : "Adds an user to the system",
