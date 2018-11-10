@@ -10,9 +10,17 @@
     <hr>
 
     <script src="http://twitter.github.com/hogan.js/builds/3.0.1/hogan-3.0.1.js"></script>
+    <script type="text/javascript" src="./wrapper/src/api/DefaultApi.js"></script>
     <script>
       var template = Hogan.compile('<hr> <h2> {{name}} </h2><text class="laufOrt"> {{laufOrt}} </text> <a href="mailto:{{mail}}"><div class="fa fa-envelope"></div></a>');
       var rendering = template.render({name: "Kaaaaarl", laufOrt: "Gützingen", mail: "hierGeht@DerPunkAb.gützingen" });
+      console.log("Hallo");
+      document.getElementById("list").innerHTML = rendering;
+      window.onload = loadingFunction;
+      function loadingFunction(){
+        var liste = this.getAllUSers;
+        console.log(String(liste));
+      }
       var rendering2 = template.render({name: "Brigitte", laufOrt: "Hodenhagen", mail: "hierGeht@DerPunkAb.gützingen" });
       document.getElementById("list").innerHTML = rendering + rendering2;
     </script>
