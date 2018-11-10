@@ -5,7 +5,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**addUser**](DefaultApi.md#addUser) | **POST** /CreateAccount | adds an user
-[**loginPost**](DefaultApi.md#loginPost) | **POST** /login | Logs you in
+[**logIn**](DefaultApi.md#logIn) | **POST** /login | Logs you in
 [**modifyUser**](DefaultApi.md#modifyUser) | **PUT** /user | changes your user
 [**searchUserDatabase**](DefaultApi.md#searchUserDatabase) | **GET** /users/getSearch | searches user Database
 [**usersGetAllGet**](DefaultApi.md#usersGetAllGet) | **GET** /users/getAll | Returns all users
@@ -25,7 +25,8 @@ var MitlUferPublicApi = require('mitl_ufer_public_api');
 
 var apiInstance = new MitlUferPublicApi.DefaultApi();
 var opts = {
-  'user': new MitlUferPublicApi.User() // User | User to add
+  'userprofile': new MitlUferPublicApi.User(), // User | The userprofile to add
+  'password': "password_example" // String | The password for the new user
 };
 var callback = function(error, data, response) {
   if (error) {
@@ -41,7 +42,8 @@ apiInstance.addUser(opts, callback);
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)| User to add | [optional] 
+ **userprofile** | [**User**](.md)| The userprofile to add | [optional] 
+ **password** | **String**| The password for the new user | [optional] 
 
 ### Return type
 
@@ -53,12 +55,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="loginPost"></a>
-# **loginPost**
-> loginPost(opts)
+<a name="logIn"></a>
+# **logIn**
+> logIn(opts)
 
 Logs you in
 
@@ -80,7 +82,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-apiInstance.loginPost(opts, callback);
+apiInstance.logIn(opts, callback);
 ```
 
 ### Parameters

@@ -7,6 +7,46 @@ body {
   text-align: center;
 }
 
+.header {
+  display: flex;
+  flex-wrap: nowrap;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  background-color: #BFBFC4;
+  padding: 5%;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+
+.sticky + .content {
+  padding-top: 102px;
+}
+
+.p-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 8%;
+}
+
+.person {
+  align-self: center;
+  width: 40%;
+  margin-bottom: 6%;
+  justify-content: center;
+}
+
 .container{
   display: flex;
   flex-direction: column;
@@ -28,12 +68,12 @@ body {
 }
 
 h2 {
-  color:#5cb8d7;
+  color:#8CCDE3;
   margin-top: 4%;
 }
 
 h1 {
-  color: #5cb8d7;
+  color: #8CCDE3;
   font-size: 250%;
   margin-bottom: 15%;
 }
@@ -42,6 +82,7 @@ button {
   font-size: inherit;
   color: #34312d;
   background-color: #d80056;
+  font-weight: bold;
 
   border-width: 5px;
   border-style: solid;
@@ -53,7 +94,7 @@ button {
 }
 
 hr {
-  color:#7e7f83;
+  color:#BFBFC4;
   display: block;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
@@ -61,23 +102,60 @@ hr {
   border-width: 1px;
 }
 
-input :hover {
-  border-color: #7e7f83;
-  color: inherit;
-  background-color: #7e7f83;
-}
-
 input {
   text-align: center;
   font-size: inherit;
-  color: #7e7f83;
+  color: #BFBFC4;
   background-color: inherit;
 
   border-width: 5px;
   border-style: solid;
-  border-color: #7e7f83;
+  border-color: #BFBFC4;
   border-radius: 20px;
 
   padding: 2%;
   margin: 4%;
+}
+
+.stern {
+  width: 20%;
+  margin-top: -5%;
+  margin-right: -5%;
+}
+
+#list{
+  margin-top: 30%;
+}
+
+#logo {
+  width: 80%;
+  display: flex;
+  align-self: flex-start;
+}
+
+.suche {
+  display: flex;
+  color:#ff8c01;
+  align-self: flex-end;
+  width: 60%;
+  margin: 0%;
+  margin-left: 5%;
+  border-color: #ff8c01;
+}
+
+.search {
+  display: flex;
+  align-self: flex-end;
+  width: 10%;
+  margin: 0%;
+  margin-top: -3%;
+  margin-left: 5%;
+  margin-right: 20%;
+}
+
+.settings {
+  width : 20%;
+  display: flex;
+  align-self: flex-start;
+  margin: 5%;
 }
