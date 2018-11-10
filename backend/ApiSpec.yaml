@@ -14,6 +14,27 @@ tags:
     description: Operations available to anyone
 paths:
   /user:
+    put:
+      summary: changes your user
+      operationId: ModifyUser
+      description: Changes your own user
+      security:
+        - cookieAuth: []
+      parameters: 
+       - in: query
+         name: newUserData
+         description: The new userdata
+         schema: 
+            $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User updated
+        '400':
+          description: 'invalid input, object invalid'
+        '403':
+          description: You are not allowed to do that
+
+  /users:
     get:
       tags:
         - open
@@ -55,6 +76,7 @@ paths:
                   $ref: '#/components/schemas/User'
         '400':
           description: bad input parameter
+  /CreateAccount:
     post:
       tags:
         - open
