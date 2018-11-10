@@ -8,7 +8,9 @@
 </head>
 <body>
   <div class="header" id="myHeader">
-  <img class="items" src="img/logo.png">
+  <a href="start.html"><img class="items" id="logo" src="img/logo.png"></a>
+  <input type="text" class="suche" placeholder="Suche...">
+  <img class="search" src="img/search.png">
 </div>
   <div id="list">
   </div>
@@ -29,7 +31,8 @@
       var rendering2 = template.render({name: "Brigitte", laufOrt: "Dresden", mail: "hierGeht@DerPunkAb.gützingen", skill: "img/einStern.png" });
       var rendering3 = template.render({name: "Chantal", laufOrt: "Köln", mail: "hierGeht@DerPunkAb.gützingen", skill: "img/dreiSterne.png" });
       var rendering4 = template.render({name: "Alex", laufOrt: "Bielefeld", mail: "hierGeht@DerPunkAb.gützingen", skill: "img/einStern.png" });
-      document.getElementById("list").innerHTML = rendering + rendering2 + rendering3 +rendering4;
+        var rendering5 = template.render({name: "Heidi", laufOrt: "Frankfurt", mail: "hierGeht@DerPunkAb.gützingen", skill: "img/einStern.png" });
+      document.getElementById("list").innerHTML = rendering + rendering2 + rendering3 +rendering4 + rendering5;
 
       window.onscroll = function() {myFunction()};
       var header = document.getElementById("myHeader");
