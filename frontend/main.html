@@ -18,7 +18,7 @@
     <script type="text/javascript" src="./wrapper/src/api/DefaultApi.js"></script>
     <script>
       var template = Hogan.compile('<hr> <div class="p-container"> <div class="person"> <h2> {{name}} </h2><text class="laufOrt"> {{laufOrt}} </text> <a href="mailto:{{mail}}"><div class="fa fa-envelope"></div></a> </div> <img class="stern" class="person" src ={{skill}}> </br> </div> ');
-      var rendering = template.render({name: "Kaaaaarl", laufOrt: "Gützingen", mail: "hierGeht@DerPunkAb.gützingen", skill:"img/fünfSterne.png"  });
+      var rendering = template.render({name: "Karl", laufOrt: "Gützingen", mail: "hierGeht@DerPunkAb.gützingen", skill:"img/fünfSterne.png"  });
       console.log("Hallo");
       document.getElementById("list").innerHTML = rendering;
       window.onload = loadingFunction;
@@ -26,7 +26,7 @@
         var liste = this.getAllUSers;
         console.log(String(liste));
       }
-      var rendering2 = template.render({name: "Brigitte", laufOrt: "Hodenhagen", mail: "hierGeht@DerPunkAb.gützingen", skill: "img/einStern.png" });
+      var rendering2 = template.render({name: "Brigitte", laufOrt: "Dresden", mail: "hierGeht@DerPunkAb.gützingen", skill: "img/einStern.png" });
       var rendering3 = template.render({name: "Chantal", laufOrt: "Köln", mail: "hierGeht@DerPunkAb.gützingen", skill: "img/dreiSterne.png" });
       document.getElementById("list").innerHTML = rendering + rendering2 + rendering3;
     </script>
