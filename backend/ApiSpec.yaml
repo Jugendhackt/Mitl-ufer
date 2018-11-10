@@ -13,6 +13,22 @@ tags:
   - name: open
     description: Operations available to anyone
 paths:
+  /login:
+    post:
+      summary: Logs you in
+      description: Creates a cookie providing authentication
+      responses:
+        '200':
+          description: >
+            Successfully authenticated.
+            The session ID is returned in a cookie named `JSESSIONID`. You need to include this cookie in subsequent requests.
+          headers: 
+            Set-Cookie:
+              schema: 
+                type: string
+                example: JSESSIONID=abcde12345; Path=/; HttpOnly
+        '201': 
+          description: Invalid credentials
   /user:
     put:
       summary: changes your user
@@ -97,6 +113,11 @@ paths:
               $ref: '#/components/schemas/User'
         description: User to add
 components:
+  securitySchemes:
+    cookieAuth:         # arbitrary name for the security scheme; will be used in the "security" key later
+      type: apiKey
+      in: cookie
+      name: JSESSIONID  # cookie name
   schemas:
     User:
       type: object
