@@ -15,6 +15,8 @@ using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
@@ -42,26 +44,36 @@ namespace Org.OpenAPITools.Controllers {
 		[ValidateModelState]
 		[SwaggerOperation("AddUser")]
 		public virtual IActionResult AddUser([FromBody] User user) {
-			if (db.contains(user.Name)) {
-				return StatusCode(409);
-			}
-
-			db.Add(user);
-			return StatusCode(200);
-
-			//TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-			// return StatusCode(201);
-
-			//TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-			// return StatusCode(400);
-
-			//TODO: Uncomment the next line to return response 409 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-			// return StatusCode(409);
-
-
+#if false
+						if (db.contains(user.Name)) {
+         				return StatusCode(409);
+         			}
+         
+         			db.Add(user);
+         			return StatusCode(200);
+         
+         			//TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+         			// return StatusCode(201);
+         
+         			//TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+         			// return StatusCode(400);
+         
+         			//TODO: Uncomment the next line to return response 409 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+         			// return StatusCode(409);
+         
+         
+         			
+#endif
 			throw new NotImplementedException();
+
 		}
 
+		public static byte[] StringToByteArray(string hex) {
+			return Enumerable.Range(0, hex.Length)
+				.Where(x => x % 2 == 0)
+				.Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+				.ToArray();
+		}
 		/// <summary>
 		/// Logs you in
 		/// </summary>
@@ -78,23 +90,25 @@ namespace Org.OpenAPITools.Controllers {
 			HashAlgorithm hashAlgorithm = new SHA256Managed();
 			byte[] hash = hashAlgorithm.ComputeHash(Enumerable.Range(0, 2)
 				.SelectMany(x => x == 1 ? Encoding.UTF32.GetBytes(password) : new byte[] {2}).ToArray());
-			if (hash.SequenceEqual(dbHash)) {
-				byte[] rndBuffer = new byte[8];
-				new Random().NextBytes(rndBuffer);
-				long jsessionid = BitConverter.ToInt64(rndBuffer);
-				Response.Headers.Add("JSESSIONID", jsessionid.ToString());
-				return StatusCode(200);
+			
+			SqlCommand cmd = new SqlCommand("SELECT PasswordHash FROM users WHERE Username = ?", Program.SqlServer);
+			cmd.Parameters.Add("Username", SqlDbType.VarChar, 63).Value = username;
+			string dbHashStr = cmd.ExecuteReader().GetString(0);
+			if (hash.SequenceEqual(StringToByteArray(dbHashStr))) {
+				return StatusCode(201);
 			}
 
-			return StatusCode(201);
-			//TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-			// return StatusCode(200);
+			byte[] rndBuffer = new byte[8];
+			new Random().NextBytes(rndBuffer);
+			long jsessionid = BitConverter.ToInt64(rndBuffer);
+			cmd=new SqlCommand("UPDATE tokens SET Token = ? WHERE Username = ?;", Program.SqlServer);
+			cmd.Parameters.Add("Username", SqlDbType.VarChar, 63).Value = username;
+			cmd.Parameters.Add("Token", SqlDbType.BigInt).Value = jsessionid;
+			cmd.ExecuteNonQuery();
+			Response.Headers.Add("JSESSIONID", jsessionid.ToString());
+			
+			return StatusCode(200);
 
-			//TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-			// return StatusCode(201);
-
-
-			throw new NotImplementedException();
 		}
 
 		/// <summary>
@@ -110,31 +124,34 @@ namespace Org.OpenAPITools.Controllers {
 		[ValidateModelState]
 		[SwaggerOperation("ModifyUser")]
 		public virtual IActionResult ModifyUser([FromQuery] User newUserData) {
-			if (!Request.Headers.Contains("JSESSIONID")) {
-				return StatusCode(400);
-			}
-
-			if (!long.TryParse(Request.Headers["JSESSIONID"], out long jsessionid)) {
-				return StatusCode(400);
-			}
-
-			if (db[jsessionid].username != newUserData.Name) {
-				return StatusCode(403);
-			}
-
-			//TODO change
-			return StatusCode(200);
-			//TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-			// return StatusCode(201);
-
-			//TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-			// return StatusCode(400);
-
-			//TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-			// return StatusCode(403);
-
-
-			throw new NotImplementedException();
+#if false
+					if (!Request.Headers.Contains("JSESSIONID")) {
+      				return StatusCode(400);
+      			}
+      
+      			if (!long.TryParse(Request.Headers["JSESSIONID"], out long jsessionid)) {
+      				return StatusCode(400);
+      			}
+      
+      			if (db[jsessionid].username != newUserData.Name) {
+      				return StatusCode(403);
+      			}
+      
+      			//TODO change
+      			return StatusCode(200);
+      			//TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+      			// return StatusCode(201);
+      
+      			//TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+      			// return StatusCode(400);
+      
+      			//TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+      			// return StatusCode(403);
+      
+      
+      			
+#endif
+throw new NotImplementedException();	
 		}
 
 		/// <summary>
@@ -184,16 +201,10 @@ namespace Org.OpenAPITools.Controllers {
 			//TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
 			// return StatusCode(200, default(List<User>));
 
-			string exampleJson = null;
-			exampleJson =
-				"{\r\n  \"geburtsdatum\" : \"2000-01-23\",\r\n  \"laufniveau\" : \"Anfaenger\",\r\n  \"name\" : \"HalloWelt\",\r\n  \"laufort\" : \"32657\",\r\n  \"profilbild\" : \"Not implemented yet\",\r\n  \"eMail\" : \"DeineAdresse@gmail.com\",\r\n  \"ziel\" : 0\r\n}";
-
-			var example = exampleJson != null
-				? JsonConvert.DeserializeObject<List<User>>(exampleJson)
-				: default(List<User>);
 			//TODO: Change the data returned
 			//Response.StatusCode = 200;
 			//return new StatusCodeResult(200);
+			Response.Headers.Add("Access-Control-Allow-Origin","*");
 			return new ObjectResult(new List<User>(new[] {
 				new User() {
 					EMail = "xzy", Laufniveau = Models.User.LaufniveauEnum.AnfaengerEnum, Geburtsdatum = new DateTime(1990, 1, 27),
