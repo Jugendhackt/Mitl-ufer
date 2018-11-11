@@ -1,13 +1,20 @@
 function usersGetAllGet() {
-  let didTimeOut = false;
+  return getAPI('http://172.22.42.100:8080/users/getAll')
+}
 
+function getSearch(searchString) {
+  return getAPI('http://172.22.42.100:8080/users/getSearch?searchString=' + encodeURI(searchString) + '&skip=0&limit=10')
+}
+
+function getAPI(URL) {
+  let didTimeOut = false;
   return new Promise(function(resolve, reject) {
       const timeout = setTimeout(function() {
           didTimeOut = true;
           reject(new Error('Request timed out'));
       }, 2500);
 
-      fetch('http://172.22.42.23:8080/users/getAll')
+      fetch(URL)
       .then(function(response) {
           clearTimeout(timeout);
           if(!didTimeOut) {
@@ -33,6 +40,7 @@ function usersGetAllGet() {
       console.log('error: ', err);
   });
 }
+
 
 
 function mock() {

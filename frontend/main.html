@@ -26,7 +26,7 @@
       function test(name, eMail){
         console.log(name);
         var hi = JSON.parse(https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q=bakery+in+berlin+wedding&format=json&limit=1);
-        console.log(hi); 
+        console.log(hi);
         var map1 = Hogan.compile('<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=7.551727294921876%2C51.80012302802363%2C9.262847900390627%2C52.39655345757824&amp;layer=mapnik&amp;marker=52.099538201560804%2C8.406188897788525" style="border: 1px solid black"></iframe>')
         var map = map1.render();
         document.getElementById("karte").innerHTML=map;
