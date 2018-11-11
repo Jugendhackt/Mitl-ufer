@@ -7,7 +7,7 @@ function usersGetAllGet() {
           reject(new Error('Request timed out'));
       }, 2500);
 
-      fetch('http://172.22.42.100:8080/users/getAll')
+      fetch('http://172.22.42.23:8080/users/getAll')
       .then(function(response) {
           clearTimeout(timeout);
           if(!didTimeOut) {
