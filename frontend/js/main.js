@@ -33,3 +33,18 @@ function usersGetAllGet() {
       console.log('error: ', err);
   });
 }
+
+function mock() {
+  return [{
+      name: "Joseph",
+      laufort: "45372",
+      laufniveau: 3,
+      eMail: "hdhd@hh.de"
+    },
+  {
+    name: "Hallo",
+    laufort: "98965",
+    laufniveau: 1,
+    eMail: "hdhd@hh.de"
+  }]
+}

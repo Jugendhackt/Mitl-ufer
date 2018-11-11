@@ -164,3 +164,15 @@ input {
   height: 100vh;
   text-align: center;
 }
+
+.stars1{
+  width: 7%;
+}
+
+.stars3{
+  width: 15%;
+}
+
+.stars5{
+  width:20%;
+}
