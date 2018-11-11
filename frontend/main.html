@@ -26,15 +26,15 @@
       }
 
       function loadingFunction(){
-        const response = mock();
-        //usersGetAllGet().then(function(response) {
+        // const response = mock();
+        usersGetAllGet().then(function(response) {
           var template = Hogan.compile('{{#response}}<div onclick="test(\'{{name}}\', \'{{eMail}}\');"><hr> <h2> {{name}} </h2><text class="laufOrt"> {{laufort}} </text> <a href="mailto:{{eMail}}"><div class="fa fa-envelope"></div></a> </br> <img class="stars{{laufniveau}}" src="./img/stars{{laufniveau}}.png"></div>{{/response}}');
           // console.log(template);
           var rendering = template.render({response: response});
           // console.log(rendering);
           document.getElementById("list").innerHTML = rendering;
           // console.log(response[0]);
-        //});
+        });
       }
       window.onscroll = function() {myFunction()};
       var header = document.getElementById("myHeader");
