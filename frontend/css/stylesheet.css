@@ -133,7 +133,7 @@ input {
   align-self: flex-start;
 }
 
-.suche {
+#suche {
   display: flex;
   color: #34312d;
   align-self: flex-end;

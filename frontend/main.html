@@ -7,22 +7,28 @@
   <meta charset="utf-8">
 </head>
 <body>
-  <div class="header" id="myHeader">
-  <a href="start.html"><img class="items" id="logo" src="img/logo.png"></a>
-  <input type="text" class="suche" placeholder="Suche...">
-  <img class="search" src="img/search.png">
-</div>
-  <div id="list">
-  </div>
+    <div class="header" id="myHeader">
+      <a href="start.html"><img class="items" id="logo" src="img/logo.png"></a>
+      <input type="text" id="suche" placeholder="Suche..." onchange="searchChange()">
+      <img class="search" src="img/search.png">
+    </div>
+    <div id="list">
+    </div>
     <hr>
+<<<<<<< HEAD
     <div id="karte">
     </div>
 
+=======
+>>>>>>> 805fb6220aec1fc5d60448fd8d6501720f2054cb
     <script src="http://twitter.github.com/hogan.js/builds/3.0.1/hogan-3.0.1.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
     <script>
-      window.onload = loadingFunction;
+      window.onload = fetchUsers;
 
+      console.log(getSearch('fds'));
+
+<<<<<<< HEAD
       function test(name, eMail){
         console.log(name);
         var hi = JSON.parse(https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q=bakery+in+berlin+wedding&format=json&limit=1);
@@ -35,6 +41,26 @@
 
       function loadingFunction(){
         console.log("j");
+=======
+      function searchChange(){
+        const searchString = document.getElementById("suche").value;
+        if(searchString !== ""){
+          getSearch(searchString).then(function(response) {
+            var template = Hogan.compile('{{#response}}<div onclick="test(\'{{name}}\', \'{{eMail}}\');"><hr> <h2> {{name}} </h2><text class="laufOrt"> {{laufort}} </text> <a href="mailto:{{eMail}}"><div class="fa fa-envelope"></div></a> </br> <img class="stars{{laufniveau}}" src="./img/stars{{laufniveau}}.png"></div>{{/response}}');
+            // console.log(template);
+            var rendering = template.render({response: response});
+            // console.log(rendering);
+            document.getElementById("list").innerHTML = rendering;
+            // console.log(response[0]);
+          });
+        }
+        else{
+          fetchUsers();
+        }
+      }
+
+      function fetchUsers(){
+>>>>>>> 805fb6220aec1fc5d60448fd8d6501720f2054cb
         // const response = mock();
         usersGetAllGet().then(function(response) {
           var template = Hogan.compile('{{#response}}<div onclick="test(\'{{name}}\', \'{{eMail}}\');"><hr> <h2> {{name}} </h2><text class="laufOrt"> {{laufort}} </text> <a href="mailto:{{eMail}}"><div class="fa fa-envelope"></div></a> </br> <img class="stars{{laufniveau}}" src="./img/stars{{laufniveau}}.png"></div>{{/response}}');
