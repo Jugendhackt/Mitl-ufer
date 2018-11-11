@@ -218,6 +218,18 @@
   },
   "components" : {
     "schemas" : {
+      "NewUser" : {
+        "required" : [ "password", "userdata" ],
+        "type" : "object",
+        "properties" : {
+          "userdata" : {
+            "$ref" : "#/components/schemas/User"
+          },
+          "password" : {
+            "type" : "string"
+          }
+        }
+      },
       "User" : {
         "required" : [ "eMail", "geburtsdatum", "geschlecht", "laufniveau", "laufort", "name", "profilbild", "ziel" ],
         "type" : "object",
@@ -259,6 +271,26 @@
           "profilbild" : "Not implemented yet",
           "eMail" : "DeineAdresse@gmail.com",
           "ziel" : 0
+        }
+      }
+    },
+    "requestBodies" : {
+      "CreateAccount" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/NewUser"
+            }
+          }
+        }
+      },
+      "UpdateAccount" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/User"
+            }
+          }
         }
       }
     },
