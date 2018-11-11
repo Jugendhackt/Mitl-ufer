@@ -165,14 +165,14 @@ input {
   text-align: center;
 }
 
-.stars1{
+.starsAnfaenger{
   width: 7%;
 }
 
-.stars3{
+.starsFortgeschritten{
   width: 15%;
 }
 
-.stars5{
+.starsProfi{
   width:20%;
 }
