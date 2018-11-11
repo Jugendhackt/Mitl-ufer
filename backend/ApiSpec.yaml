@@ -130,6 +130,8 @@ paths:
       summary: adds an user
       operationId: AddUser
       description: Adds an user to the system
+      requestBody:
+        $ref: '#/components/requestBodies/CreateAccount'
       responses:
         '201':
           description: item created
