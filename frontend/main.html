@@ -15,33 +15,26 @@
     <div id="list">
     </div>
     <hr>
-<<<<<<< HEAD
     <div id="karte">
     </div>
 
-=======
->>>>>>> 805fb6220aec1fc5d60448fd8d6501720f2054cb
     <script src="http://twitter.github.com/hogan.js/builds/3.0.1/hogan-3.0.1.js"></script>
     <script type="text/javascript" src="./js/main.js"></script>
     <script>
       window.onload = fetchUsers;
 
-      console.log(getSearch('fds'));
-
-<<<<<<< HEAD
       function test(name, eMail){
         console.log(name);
         var hi = JSON.parse(https://nominatim.openstreetmap.org/?format=json&addressdetails=1&q=bakery+in+berlin+wedding&format=json&limit=1);
-        console.log(hi);
+        console.log(hi); 
         var map1 = Hogan.compile('<iframe width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=7.551727294921876%2C51.80012302802363%2C9.262847900390627%2C52.39655345757824&amp;layer=mapnik&amp;marker=52.099538201560804%2C8.406188897788525" style="border: 1px solid black"></iframe>')
         var map = map1.render();
         document.getElementById("karte").innerHTML=map;
-        console.log(laufniveau);
       }
 
       function loadingFunction(){
         console.log("j");
-=======
+      }
       function searchChange(){
         const searchString = document.getElementById("suche").value;
         if(searchString !== ""){
@@ -60,7 +53,6 @@
       }
 
       function fetchUsers(){
->>>>>>> 805fb6220aec1fc5d60448fd8d6501720f2054cb
         // const response = mock();
         usersGetAllGet().then(function(response) {
           var template = Hogan.compile('{{#response}}<div onclick="test(\'{{name}}\', \'{{eMail}}\');"><hr> <h2> {{name}} </h2><text class="laufOrt"> {{laufort}} </text> <a href="mailto:{{eMail}}"><div class="fa fa-envelope"></div></a> </br> <img class="stars{{laufniveau}}" src="./img/stars{{laufniveau}}.png"></div>{{/response}}');
