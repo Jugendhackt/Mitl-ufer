@@ -116,20 +116,11 @@ paths:
                   $ref: '#/components/schemas/User'
   /CreateAccount:
     post:
-      parameters:
-        - in: query
-          name: userprofile
-          description: The userprofile to add
-          schema:
-            $ref: '#/components/schemas/User'
-        - in: query
-          name: password
-          description: The password for the new user
-          schema:
-            type: string
       summary: adds an user
       operationId: AddUser
       description: Adds an user to the system
+      requestBody:
+        $ref: '#/components/requestBodies/CreateAccount'
       responses:
         '201':
           description: item created
@@ -143,7 +134,28 @@ components:
       type: apiKey
       in: cookie
       name: JSESSIONID  # cookie name
+  requestBodies:
+    CreateAccount:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NewUser'
+    UpdateAccount:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
   schemas:
+    NewUser:
+      type: object
+      required:
+        - userdata
+        - password
+      properties:
+        userdata:
+          $ref: '#/components/schemas/User'
+        password:
+          type: string
     User:
       type: object
       required:
