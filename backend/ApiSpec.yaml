@@ -143,7 +143,28 @@ components:
       type: apiKey
       in: cookie
       name: JSESSIONID  # cookie name
+  requestBodies:
+    CreateAccount:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NewUser'
+    UpdateAccount:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
   schemas:
+    NewUser:
+      type: object
+      required:
+        - userdata
+        - password
+      properties:
+        userdata:
+          $ref: '#/components/schemas/User'
+        password:
+          type: string
     User:
       type: object
       required:

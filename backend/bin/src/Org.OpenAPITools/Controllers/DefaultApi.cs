@@ -53,12 +53,18 @@ namespace Org.OpenAPITools.Controllers {
 				exists = true;
 				break;
 			}
-mySqlDataReader.Close();
+
+			mySqlDataReader.Close();
 			if (exists) {
 				return StatusCode(409);
 			}
 
-			cmd = new MySqlCommand("INSERT INTO users (Username, Postalcode, EMail, Age, Picture, Target, Laufniveau, PasswordHash) VALUES (@Name,@Postal,@EMail,@Age,@Picture,@Target,@Niveau,@PasswordHash)", Program.SqlServer);
+			long salt = RndLong();
+			
+
+			cmd = new MySqlCommand(
+				"INSERT INTO users VALUES (@Name,@Postal,@EMail,@Age,@Picture,@Target,@Niveau,@PasswordHash,@Salt)",
+				Program.SqlServer);
 			cmd.Parameters.Add("@Name", MySqlDbType.VarChar, 63).Value = user.Name;
 			cmd.Parameters.Add("@Postal", MySqlDbType.VarChar, 5).Value = user.Laufort;
 			cmd.Parameters.Add("@EMail", MySqlDbType.VarChar, 63).Value = user.EMail;
@@ -66,7 +72,7 @@ mySqlDataReader.Close();
 			cmd.Parameters.Add("@Picture", MySqlDbType.VarChar, 255).Value = user.Profilbild;
 			cmd.Parameters.Add("@Target", MySqlDbType.Int32).Value = user.Ziel;
 			cmd.Parameters.Add("@Niveau", MySqlDbType.VarChar, 63).Value = user.Laufniveau;
-			cmd.Parameters.Add("@PasswordHash", MySqlDbType.VarChar, 63).Value = user.Name;
+			cmd.Parameters.Add("@PasswordHash", MySqlDbType.VarChar, 63).Value = CalcHash();
 			cmd.ExecuteNonQuery();
 			return StatusCode(200);
 #if false
@@ -105,26 +111,29 @@ mySqlDataReader.Close();
 		[ValidateModelState]
 		[SwaggerOperation("LoginIn")]
 		public virtual IActionResult LoginPost([FromQuery] string username, [FromQuery] string password) {
-			HashAlgorithm hashAlgorithm = new SHA256Managed();
-			byte[] hash = hashAlgorithm.ComputeHash(Enumerable.Range(0, 2)
-				.SelectMany(x => x == 1 ? Encoding.UTF32.GetBytes(password) : new byte[] {2}).ToArray());
+			MySqlCommand cmd = new MySqlCommand("SELECT Salt FROM users where Username = ?");
+			cmd.Parameters.Add("Username", MySqlDbType.Int64).Value = username;
+			MySqlDataReader saltReader = cmd.ExecuteReader();
+			if (!saltReader.Read()) {
+				return StatusCode(201);
+			}
 
-			MySqlCommand cmd = new MySqlCommand("SELECT PasswordHash FROM users WHERE Username = ?", Program.SqlServer);
+			byte[] salt = BitConverter.GetBytes((long) saltReader["Salt"]);
+			saltReader.Close();
+			byte[] hash = CalcHash(password, salt);
+			cmd = new MySqlCommand("SELECT PasswordHash FROM users WHERE Username = ?", Program.SqlServer);
 			cmd.Parameters.Add("Username", MySqlDbType.VarChar, 63).Value = username;
 			MySqlDataReader mySqlDataReader = cmd.ExecuteReader();
 			string dbHashStr = "";
 			while (mySqlDataReader.Read()) {
 				dbHashStr = mySqlDataReader["PasswordHash"].ToString();
 			}
-
 			//dbHashStr = mySqlDataReader.GetString(0);
 			if (!hash.SequenceEqual(StringToByteArray(dbHashStr))) {
 				return StatusCode(201);
 			}
 
-			byte[] rndBuffer = new byte[8];
-			new Random().NextBytes(rndBuffer);
-			long jsessionid = BitConverter.ToInt64(rndBuffer);
+			long jsessionid = RndLong();
 			cmd = new MySqlCommand("UPDATE tokens SET Token = ? WHERE Username = ?;", Program.SqlServer);
 			cmd.Parameters.Add("Username", MySqlDbType.VarChar, 63).Value = username;
 			cmd.Parameters.Add("Token", SqlDbType.BigInt).Value = jsessionid;
@@ -132,6 +141,20 @@ mySqlDataReader.Close();
 			Response.Headers.Add("JSESSIONID", jsessionid.ToString());
 
 			return StatusCode(200);
+		}
+
+		private static byte[] CalcHash(string password, byte[] salt) {
+			HashAlgorithm hashAlgorithm = new SHA256Managed();
+			byte[] hash = hashAlgorithm.ComputeHash(Enumerable.Range(0, 2)
+				.SelectMany(x => x == 1 ? Encoding.UTF32.GetBytes(password) : salt).ToArray());
+			return hash;
+		}
+
+		private static long RndLong() {
+			byte[] rndBuffer = new byte[8];
+			new Random().NextBytes(rndBuffer);
+			long jsessionid = BitConverter.ToInt64(rndBuffer);
+			return jsessionid;
 		}
 
 		/// <summary>
@@ -197,17 +220,10 @@ mySqlDataReader.Close();
 			// return StatusCode(200, default(List<User>));
 
 			//TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-			// return StatusCode(400);
+			return StatusCode(400);
 
-			string exampleJson = null;
-			exampleJson =
-				"{\r\n  \"geburtsdatum\" : \"2000-01-23\",\r\n  \"laufniveau\" : \"Anfaenger\",\r\n  \"name\" : \"HalloWelt\",\r\n  \"laufort\" : \"32657\",\r\n  \"profilbild\" : \"Not implemented yet\",\r\n  \"eMail\" : \"DeineAdresse@gmail.com\",\r\n  \"ziel\" : 0\r\n}";
-
-			var example = exampleJson != null
-				? JsonConvert.DeserializeObject<List<User>>(exampleJson)
-				: default(List<User>);
 			//TODO: Change the data returned
-			return new ObjectResult(example);
+			//return new ObjectResult(example);
 		}
 
 		/// <summary>

@@ -7,6 +7,7 @@ CREATE TABLE 	Users (
     Target int,
     Laufniveau int,
     PasswordHash varchar(64),
+    Salt long,
     PRIMARY KEY (Username)
 );
 
