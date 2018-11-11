@@ -26,28 +26,30 @@ using MySql.Data.MySqlClient;
 using Org.OpenAPITools.Attributes;
 using Org.OpenAPITools.Models;
 
-namespace Org.OpenAPITools.Controllers {
-	/// <summary>
-	/// 
-	/// </summary>
-	public class DefaultApiController : Controller {
-		/// <summary>
-		/// adds an user
-		/// </summary>
-		/// <remarks>Adds an user to the system</remarks>
-		/// <param name="userprofile">The userprofile to add</param>
-		/// <param name="password">The password for the new user</param>
-		/// <response code="201">item created</response>
-		/// <response code="400">invalid input, object invalid</response>
-		/// <response code="409">an existing item already exists</response>
-		[HttpPost]
-		[Route("/CreateAccount")]
-		[ValidateModelState]
-		[SwaggerOperation("AddUser")]
-		public virtual IActionResult AddUser([FromQuery] User userprofile, [FromQuery] string password) {
-			Response.Headers.Add("Access-Control-Allow-Origin", "*");
+namespace Org.OpenAPITools.Controllers
+{ 
+    /// <summary>
+    /// 
+    /// </summary>
+    public class DefaultApiController : Controller
+    {
+        /// <summary>
+        /// adds an user
+        /// </summary>
+        /// <remarks>Adds an user to the system</remarks>
+        /// <param name="newUser"></param>
+        /// <response code="201">item created</response>
+        /// <response code="400">invalid input, object invalid</response>
+        /// <response code="409">an existing item already exists</response>
+        [HttpPost]
+        [Route("/CreateAccount")]
+        [ValidateModelState]
+        [SwaggerOperation("AddUser")]
+        public virtual IActionResult AddUser([FromBody]NewUser newUser)
+        { 
+            Response.Headers.Add("Access-Control-Allow-Origin", "*");
 			MySqlCommand cmd = new MySqlCommand("SELECT PasswordHash FROM users WHERE Username = ?", Program.SqlServer);
-			cmd.Parameters.Add("Username", MySqlDbType.VarChar, 63).Value = userprofile.Name;
+			cmd.Parameters.Add("Username", MySqlDbType.VarChar, 63).Value = newUser.Userdata.Name;
 			MySqlDataReader mySqlDataReader = cmd.ExecuteReader();
 			bool exists = false;
 			while (mySqlDataReader.Read()) {
@@ -65,14 +67,15 @@ namespace Org.OpenAPITools.Controllers {
 			cmd = new MySqlCommand(
 				"INSERT INTO users VALUES (@Name,@Postal,@EMail,@Age,@Picture,@Target,@Niveau,@PasswordHash,@Salt)",
 				Program.SqlServer);
-			cmd.Parameters.Add("@Name", MySqlDbType.VarChar, 63).Value = userprofile.Name;
-			cmd.Parameters.Add("@Postal", MySqlDbType.VarChar, 5).Value = userprofile.Laufort;
-			cmd.Parameters.Add("@EMail", MySqlDbType.VarChar, 63).Value = userprofile.EMail;
-			cmd.Parameters.Add("@Age", MySqlDbType.VarChar, 63).Value = userprofile.Geburtsdatum;
-			cmd.Parameters.Add("@Picture", MySqlDbType.VarChar, 255).Value = userprofile.Profilbild;
-			cmd.Parameters.Add("@Target", MySqlDbType.Int32).Value = userprofile.Ziel;
-			cmd.Parameters.Add("@Niveau", MySqlDbType.VarChar, 63).Value = userprofile.Laufniveau;
-			cmd.Parameters.Add("@PasswordHash", MySqlDbType.VarChar, 63).Value = CalcHash(password, BitConverter.GetBytes(salt));
+			cmd.Parameters.Add("@Name", MySqlDbType.VarChar, 63).Value = newUser.Userdata.Name;
+			cmd.Parameters.Add("@Postal", MySqlDbType.VarChar, 5).Value = newUser.Userdata.Laufort;
+			cmd.Parameters.Add("@EMail", MySqlDbType.VarChar, 63).Value = newUser.Userdata.EMail;
+			cmd.Parameters.Add("@Age", MySqlDbType.VarChar, 63).Value = newUser.Userdata.Geburtsdatum;
+			cmd.Parameters.Add("@Picture", MySqlDbType.VarChar, 255).Value = newUser.Userdata.Profilbild;
+			cmd.Parameters.Add("@Target", MySqlDbType.Int32).Value = newUser.Userdata.Ziel;
+			cmd.Parameters.Add("@Niveau", MySqlDbType.VarChar, 63).Value = newUser.Userdata.Laufniveau;
+			cmd.Parameters.Add("@PasswordHash", MySqlDbType.VarChar, 63).Value = BitConverter.ToString(CalcHash(newUser.Password, BitConverter.GetBytes(salt))).Replace("-", string.Empty);
+			cmd.Parameters.Add("@Salt", MySqlDbType.Int64).Value = salt;
 			cmd.ExecuteNonQuery();
 			return StatusCode(200);
 #if false
@@ -88,8 +91,8 @@ namespace Org.OpenAPITools.Controllers {
 
          			
 #endif
-			throw new NotImplementedException();
-		}
+            throw new NotImplementedException();
+        }
 
 		public static byte[] StringToByteArray(string hex) {
 			return Enumerable.Range(0, hex.Length)
@@ -98,28 +101,28 @@ namespace Org.OpenAPITools.Controllers {
 				.ToArray();
 		}
 
-		/// <summary>
-		/// Logs you in
-		/// </summary>
-		/// <remarks>Creates a cookie providing authentication</remarks>
-		/// <param name="username">the username you entered on Account creation</param>
-		/// <param name="password">the password you choose</param>
-		/// <response code="200">Successfully authenticated. The session ID is returned in a cookie named &#x60;JSESSIONID&#x60;. You need to include this cookie in subsequent requests. </response>
-		/// <response code="201">Invalid credentials</response>
-		[HttpPost]
+        /// <summary>
+        /// Logs you in
+        /// </summary>
+        /// <remarks>Creates a cookie providing authentication</remarks>
+        /// <param name="username">the username you entered on Account creation</param>
+        /// <param name="password">the password you choose</param>
+        /// <response code="200">Successfully authenticated. The session ID is returned in a cookie named &#x60;JSESSIONID&#x60;. You need to include this cookie in subsequent requests. </response>
+        /// <response code="201">Invalid credentials</response>
+        [HttpPost]
 		[Route("/login")]
-		[ValidateModelState]
-		[SwaggerOperation("LogIn")]
+        [ValidateModelState]
+        [SwaggerOperation("LogIn")]
 		public virtual IActionResult LogIn([FromQuery] string username, [FromQuery] string password) {
 			Response.Headers.Add("Access-Control-Allow-Origin", "*");
-			MySqlCommand cmd = new MySqlCommand("SELECT Salt FROM users where Username = ?");
-			cmd.Parameters.Add("Username", MySqlDbType.Int64).Value = username;
+			MySqlCommand cmd = new MySqlCommand("SELECT Salt FROM users where Username = ?",Program.SqlServer);
+			cmd.Parameters.Add("Username", MySqlDbType.VarChar, 63).Value = username;
 			MySqlDataReader saltReader = cmd.ExecuteReader();
 			if (!saltReader.Read()) {
 				return StatusCode(201);
 			}
 
-			byte[] salt = BitConverter.GetBytes((long) saltReader["Salt"]);
+			byte[] salt = BitConverter.GetBytes(long.Parse((string) saltReader["Salt"]));
 			saltReader.Close();
 			byte[] hash = CalcHash(password, salt);
 			cmd = new MySqlCommand("SELECT PasswordHash FROM users WHERE Username = ?", Program.SqlServer);
@@ -138,7 +141,7 @@ mySqlDataReader.Close();
 			long jsessionid = RndLong();
 			cmd = new MySqlCommand("UPDATE tokens SET Token = ? WHERE Username = ?;", Program.SqlServer);
 			cmd.Parameters.Add("Username", MySqlDbType.VarChar, 63).Value = username;
-			cmd.Parameters.Add("Token", SqlDbType.BigInt).Value = jsessionid;
+			cmd.Parameters.Add("Token", MySqlDbType.Int64).Value = jsessionid;
 			cmd.ExecuteNonQuery();
 			Response.Headers.Add("JSESSIONID", jsessionid.ToString());
 
@@ -157,20 +160,20 @@ mySqlDataReader.Close();
 			new Random().NextBytes(rndBuffer);
 			long jsessionid = BitConverter.ToInt64(rndBuffer, 0);
 			return jsessionid;
-		}
+        }
 
-		/// <summary>
-		/// changes your user
-		/// </summary>
-		/// <remarks>Changes your own user</remarks>
-		/// <param name="newUserData">The new userdata</param>
-		/// <response code="201">User updated</response>
-		/// <response code="400">invalid input, object invalid</response>
-		/// <response code="403">You are not allowed to do that</response>
-		[HttpPut]
+        /// <summary>
+        /// changes your user
+        /// </summary>
+        /// <remarks>Changes your own user</remarks>
+        /// <param name="newUserData">The new userdata</param>
+        /// <response code="201">User updated</response>
+        /// <response code="400">invalid input, object invalid</response>
+        /// <response code="403">You are not allowed to do that</response>
+        [HttpPut]
 		[Route("/user")]
-		[ValidateModelState]
-		[SwaggerOperation("ModifyUser")]
+        [ValidateModelState]
+        [SwaggerOperation("ModifyUser")]
 		public virtual IActionResult ModifyUser([FromQuery] User newUserData) {
 			Response.Headers.Add("Access-Control-Allow-Origin", "*");
 #if false
@@ -200,39 +203,40 @@ mySqlDataReader.Close();
 
       			
 #endif
-			throw new NotImplementedException();
-		}
+            throw new NotImplementedException();
+        }
 
-		/// <summary>
-		/// searches user Database
-		/// </summary>
-		/// <remarks>By passing in the appropriate options, you can search for available inventory in the system </remarks>
-		/// <param name="searchString">pass an optional search string fo</param>
-		/// <param name="skip">number of records to skip for pagination</param>
-		/// <param name="limit">maximum number of records to return</param>
-		/// <response code="200">search results matching criteria</response>
-		/// <response code="400">bad input parameter</response>
-		[HttpGet]
+        /// <summary>
+        /// searches user Database
+        /// </summary>
+        /// <remarks>By passing in the appropriate options, you can search for available inventory in the system </remarks>
+        /// <param name="searchString">pass an optional search string fo</param>
+        /// <param name="skip">number of records to skip for pagination</param>
+        /// <param name="limit">maximum number of records to return</param>
+        /// <response code="200">search results matching criteria</response>
+        /// <response code="400">bad input parameter</response>
+        [HttpGet]
 		[Route("/users/getSearch")]
-		[ValidateModelState]
-		[SwaggerOperation("SearchUserDatabase")]
-		[SwaggerResponse(statusCode: 200, type: typeof(List<User>), description: "search results matching criteria")]
+        [ValidateModelState]
+        [SwaggerOperation("SearchUserDatabase")]
+        [SwaggerResponse(statusCode: 200, type: typeof(List<User>), description: "search results matching criteria")]
 		public virtual IActionResult SearchUserDatabase([FromQuery] string searchString, [FromQuery] int? skip,
 			[FromQuery] [Range(0, 50)] int? limit) {
 			Response.Headers.Add("Access-Control-Allow-Origin", "*");
 			List<User> allUsers = GetAllUsers((int) (limit+skip));
 			return new ObjectResult(allUsers.Where(x => x.Name.Contains(searchString)).Skip((int) skip).ToList());
-			//TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-			// return StatusCode(200, default(List<User>));
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(List<User>));
 
-			//TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
 			return StatusCode(400);
 
-			//TODO: Change the data returned
+            //TODO: Change the data returned
 			//return new ObjectResult(example);
 		}
 
 		private static List<User> GetAllUsers(int limit =-1) {
+		
 			List<User> allUsers = new List<User>();
 			MySqlCommand cmd = new MySqlCommand("SELECT * FROM users ", Program.SqlServer);
 			MySqlDataReader mySqlDataReader = cmd.ExecuteReader();
@@ -253,39 +257,25 @@ mySqlDataReader.Close();
 
 			mySqlDataReader.Close();
 			return allUsers;
-		}
+        }
 
-		/// <summary>
-		/// Returns all users
-		/// </summary>
-		/// <remarks>By passing in the appropriate options, you can search for available inventory in the system </remarks>
-		/// <response code="200">All users</response>
-		[HttpGet]
-		[Route("/users/getAll")]
-		[ValidateModelState]
-		[SwaggerOperation("UsersGetAllGet")]
-		[SwaggerResponse(statusCode: 200, type: typeof(List<User>), description: "All users")]
-		public virtual IActionResult UsersGetAllGet() {
-			//TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-			// return StatusCode(200, default(List<User>));
+        /// <summary>
+        /// Returns all users
+        /// </summary>
+        /// <remarks>By passing in the appropriate options, you can search for available inventory in the system </remarks>
+        /// <response code="200">All users</response>
+        [HttpGet]
+        [Route("/users/getAll")]
+        [ValidateModelState]
+        [SwaggerOperation("UsersGetAllGet")]
+        [SwaggerResponse(statusCode: 200, type: typeof(List<User>), description: "All users")]
+        public virtual IActionResult UsersGetAllGet()
+        { Response.Headers.Add("Access-Control-Allow-Origin", "*");
+            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
+            // return StatusCode(200, default(List<User>));
 
-			//TODO: Change the data returned
-			//Response.StatusCode = 200;
-			//return new StatusCodeResult(200);
-			Response.Headers.Add("Access-Control-Allow-Origin", "*");/*
-			return new ObjectResult(new List<User>(new[] {
-				new User() {
-					EMail = "xzy", Laufniveau = Models.User.LaufniveauEnum.AnfaengerEnum, Geburtsdatum = new DateTime(1990, 1, 27),
-					Laufort = "32657", Name = "Max Musterman",
-					Profilbild = "https://en.wikipedia.org/wiki/Purple#/media/File:Queen_Elizabeth_II_in_March_2015.jpg", Ziel = 20
-				},
-				new User() {
-					EMail = "xzy", Laufniveau = Models.User.LaufniveauEnum.AnfaengerEnum, Geburtsdatum = new DateTime(1990, 1, 27),
-					Laufort = "32657", Name = "Max Leer",
-					Profilbild = "https://en.wikipedia.org/wiki/Purple#/media/File:Queen_Elizabeth_II_in_March_2015.jpg", Ziel = 20
-				}
-			}));*/
+            //TODO: Change the data returned
 			return new ObjectResult(GetAllUsers());
-		}
-	}
+    }
+}
 }

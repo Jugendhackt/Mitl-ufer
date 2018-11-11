@@ -116,17 +116,6 @@ paths:
                   $ref: '#/components/schemas/User'
   /CreateAccount:
     post:
-      parameters:
-        - in: query
-          name: userprofile
-          description: The userprofile to add
-          schema:
-            $ref: '#/components/schemas/User'
-        - in: query
-          name: password
-          description: The password for the new user
-          schema:
-            type: string
       summary: adds an user
       operationId: AddUser
       description: Adds an user to the system

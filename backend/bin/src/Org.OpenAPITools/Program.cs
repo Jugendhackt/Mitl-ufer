@@ -31,7 +31,7 @@ namespace Org.OpenAPITools
         /// <param name="args"></param>
         /// <returns>IWebHostBuilder</returns>
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) {
-            string ip = "172.22.42.100";
+            string ip = "172.22.42.23";
             return WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .UseUrls($"http://{ip}:8080/");

@@ -181,27 +181,9 @@
         "summary" : "adds an user",
         "description" : "Adds an user to the system",
         "operationId" : "AddUser",
-        "parameters" : [ {
-          "name" : "userprofile",
-          "in" : "query",
-          "description" : "The userprofile to add",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "$ref" : "#/components/schemas/User"
-          }
-        }, {
-          "name" : "password",
-          "in" : "query",
-          "description" : "The password for the new user",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/CreateAccount"
+        },
         "responses" : {
           "201" : {
             "description" : "item created"
@@ -228,6 +210,18 @@
           "password" : {
             "type" : "string"
           }
+        },
+        "example" : {
+          "userdata" : {
+            "geburtsdatum" : "2000-01-23",
+            "laufniveau" : "Anfaenger",
+            "name" : "HalloWelt",
+            "laufort" : "32657",
+            "profilbild" : "Not implemented yet",
+            "eMail" : "DeineAdresse@gmail.com",
+            "ziel" : 0
+          },
+          "password" : "password"
         }
       },
       "User" : {
